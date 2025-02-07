@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbkcerqtkko2v"]
+
+[ext_resource type="Script" path="res://create_ui.gd" id="1_llmcw"]
+[ext_resource type="Texture2D" uid="uid://cnd703a23gcb8" path="res://sprites/constellation.png" id="2_vfjjj"]
+[ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/mimi.png" id="3_xh43v"]
+[ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/derpy.png" id="4_y6gau"]
+
+[node name="create_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_llmcw")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HFlowContainer" type="HFlowContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ConstellationButton" type="TextureButton" parent="PanelContainer/MarginContainer/HFlowContainer"]
+texture_filter = 2
+layout_mode = 2
+texture_normal = ExtResource("2_vfjjj")
+
+[node name="MimiButton" type="TextureButton" parent="PanelContainer/MarginContainer/HFlowContainer"]
+layout_mode = 2
+texture_normal = ExtResource("3_xh43v")
+
+[node name="DerpyButton" type="TextureButton" parent="PanelContainer/MarginContainer/HFlowContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_y6gau")
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/HFlowContainer/ConstellationButton" to="." method="_on_constellation_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HFlowContainer/MimiButton" to="." method="_on_mimi_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HFlowContainer/DerpyButton" to="." method="_on_derpy_button_pressed"]

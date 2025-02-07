@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo7we4y4whahe"]
+
+[ext_resource type="Script" path="res://units/constellation/constellation.gd" id="1_j03q5"]
+[ext_resource type="Texture2D" uid="uid://cnd703a23gcb8" path="res://sprites/constellation.png" id="2_5675g"]
+
+[node name="Unit" type="Node2D"]
+script = ExtResource("1_j03q5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_5675g")
+centered = false
