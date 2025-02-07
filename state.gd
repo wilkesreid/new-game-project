@@ -2,14 +2,27 @@ extends Node
 
 # tile selection
 var is_selected = false
-var selected : Vector2 = Vector2.ZERO
 
+# as tile index
+var selected : Vector2i = Vector2i.ZERO 
+
+# map Vector2 pixel coords to unit objects
 var unit_map : Dictionary
 
-func add_unit(position: Vector2, instance: Node) -> void:
+func selected_index() -> Vector2i:
+	return selected
+
+func selected_coords() -> Vector2i:
+	return Coord.index_to_coord(selected)
+
+func select_at_mouse() -> void:
+	selected = Coord.get_mouse_index()
+	is_selected = true
+
+func add_unit(position: Vector2i, instance: Node) -> void:
 	unit_map[position] = instance
 
-func unit_at(position: Vector2) -> Node:
+func unit_at(position: Vector2i) -> Node:
 	if has_unit(position):
 		return unit_map[position]
 	return null
@@ -17,7 +30,7 @@ func unit_at(position: Vector2) -> Node:
 func unit_at_selected() -> Node:
 	return unit_at(selected)
 
-func has_unit(position: Vector2) -> bool:
+func has_unit(position: Vector2i) -> bool:
 	return unit_map.has(position)
 
 func has_unit_at_selected() -> bool:

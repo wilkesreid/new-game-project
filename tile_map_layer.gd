@@ -1,12 +1,10 @@
 extends TileMapLayer
 
+# positions must be tile index (not pixel coords)
 
+func has_tile_at(pos : Vector2) -> bool:
+	return tile_at(pos) != null
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func tile_at(pos : Vector2) -> TileData:
+	return get_cell_tile_data(pos)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

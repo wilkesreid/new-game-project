@@ -15,7 +15,7 @@ func create(Unit : PackedScene) -> void:
 			var existing = State.unit_at_selected()
 			get_tree().root.remove_child(existing)
 		var instance = Unit.instantiate()
-		instance.set_position(State.selected)
+		instance.set_position(State.selected_coords())
 		get_tree().root.add_child(instance)	
 		State.add_unit(State.selected, instance)
 
