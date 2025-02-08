@@ -26,7 +26,6 @@ func move_to_index(target : Vector2) -> void:
     var new_segment = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
     new_segment.set_position(old_position)
     new_segment.make_body()
-    get_tree().root.add_child(new_segment)	
     State.add_unit(old_index, new_segment)
     body_queue.push_back(new_segment)
     if size < max_size:

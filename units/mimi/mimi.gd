@@ -1,4 +1,4 @@
 extends "res://unit.gd"
 
 func _ready() -> void:
-	speed = 1
+	speed = 2

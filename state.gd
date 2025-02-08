@@ -40,14 +40,15 @@ func create_unit_at_index(Unit : Resource, index : Vector2i) -> void:
 		remove_unit(index)
 	var instance = Unit.instantiate()
 	instance.set_position(Coord.index_to_coord(index))
-	get_tree().root.add_child(instance)	
 	add_unit(index, instance)
 
 func create_unit_at_selected(Unit : Resource) -> void:
 	create_unit_at_index(Unit, selected)
 
 func add_unit(position: Vector2i, instance: Node2D) -> void:
+	get_tree().root.add_child(instance)
 	unit_map[position] = instance
+	Asg.set_solid(position)
 
 func unit_at(position: Vector2i) -> Node2D:
 	if has_unit(position):
@@ -71,6 +72,7 @@ func remove_unit(position: Vector2i) -> void:
 		var instance = unit_at(position)
 		get_tree().root.remove_child(instance)
 		unit_map.erase(position)
+		Asg.set_not_solid(position)
 
 # doesn't actually move the unit,
 # just updates the map
@@ -78,6 +80,8 @@ func unit_move_index(from : Vector2i, to : Vector2i) -> void:
 	var unit = unit_at(from)
 	unit_map.erase(from)
 	unit_map[to] = unit
+	Asg.set_not_solid(from)
+	Asg.set_solid(to)
 
 # also doesn't move the unit physically,
 # just updates the map

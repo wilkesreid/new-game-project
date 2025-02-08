@@ -9,21 +9,15 @@ extends Node2D
 var time : float
 var alpha : float = 0
 
-var asg = AStarGrid2D.new()
 var navmap : NavigationServer2D
 
 func _ready() -> void:
-	# asg.region = Rect2i(0, 0, 17, 10)
-	asg.region = $TileMapLayer.get_used_rect()
-	asg.cell_size = Coord.grid_cell
-	asg.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	asg.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
-	asg.update()
-	for y in range(asg.region.position.y, asg.region.end.y):
-		for x in range(asg.region.position.x, asg.region.end.x):
-			asg.set_point_solid(Vector2i(x, y), true)
+	Asg.setup($TileMapLayer.get_used_rect())
+	for y in range(Asg.y(), Asg.yend()):
+		for x in range(Asg.x(), Asg.xend()):
+			Asg.set_solid(Vector2i(x, y))
 	for cell in $TileMapLayer.get_used_cells():
-		asg.set_point_solid(cell, false)
+		Asg.set_not_solid(cell)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("click") && is_mouse_in_grid():
@@ -33,7 +27,7 @@ func _process(delta: float) -> void:
 			# and we didn't just click on a different unit
 			var unit = State.unit_at_selected()
 			if State.is_phase(State.PHASE.MOVE) && unit && unit.is_head && !State.has_unit_at_mouse():
-				var path = asg.get_id_path(State.selected_index(), Coord.mouse_index())
+				var path = Asg.get_id_path(State.selected_index(), Coord.mouse_index())
 				# move the selected unit if we can
 				if path.size() <= unit.speed + 1:
 					State.clear_selection()
@@ -75,7 +69,7 @@ func _draw() -> void:
 			if unit.is_head:
 				# draw red path from unit to mouse
 				if $TileMapLayer.has_tile_at(Coord.mouse_index()) && State.is_phase(State.PHASE.MOVE) && !State.has_unit_at_mouse():
-					var p = asg.get_id_path(State.selected_index(), Coord.mouse_index())
+					var p = Asg.get_id_path(State.selected_index(), Coord.mouse_index())
 					if p.size() <= speed + 1:
 						for i in p:
 							draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)
@@ -85,10 +79,14 @@ func _draw() -> void:
 					for y in range(-1 * speed, speed + 1):
 						var t = State.selected_index() + Vector2i(x, y)
 						if $TileMapLayer.has_tile_at(t):
-							var path = asg.get_id_path(State.selected_index(), t)
+							var path = Asg.get_id_path(State.selected_index(), t)
 							var ti = State.selected_index() + Vector2i(x, y)
-							if $TileMapLayer.has_tile_at(ti) && path.size() <= speed + 1:
+							if $TileMapLayer.has_tile_at(ti) && path.size() > 0 && path.size() <= speed + 1:
 								draw_texture(target_texture, Coord.index_to_coord(ti))
+
+	for i in $TileMapLayer.get_used_cells():
+		if Asg.is_point_solid(i):
+			draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(0, 1, 0, .2), true)
 
 func is_mouse_on_tile() -> bool:
 	return $TileMapLayer.get_cell_tile_data(Coord.mouse_index()) != null
