@@ -28,12 +28,20 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("click") && is_mouse_in_grid():
 		if is_mouse_on_tile():
-			if State.is_phase(State.PHASE.MOVE) && State.has_unit_at_selected():
+
+			# If we're in the move phase, and a unit is already selected,
+			# and we didn't just click on a different unit
+			var unit = State.unit_at_selected()
+			if State.is_phase(State.PHASE.MOVE) && unit && unit.is_head && !State.has_unit_at_mouse():
 				var path = asg.get_id_path(State.selected_index(), Coord.mouse_index())
-				var unit = State.unit_at_selected()
+				# move the selected unit if we can
 				if path.size() <= unit.speed + 1:
-					unit.move_to_coord(Coord.mouse_coord())
-					State.select_at_mouse()
+					State.clear_selection()
+					path.pop_front() # path by default includes tile unit is already on
+					for tile in path:
+						unit.move_to_index(tile)
+						await get_tree().create_timer(.1).timeout
+					State.select_index(unit.index())
 				else:
 					State.select_at_mouse()
 			else:
@@ -54,33 +62,33 @@ func _draw() -> void:
 	if $TileMapLayer.has_tile_at(iv):
 		draw_rect(Rect2(Coord.index_to_coord(iv), Coord.grid_cell), Color(1, 1, 1, alpha), false, 2)
 
+	# if any tile is selected
 	if State.is_selected:
 		# draw flashing blue rect around selected tile
 		draw_rect(Rect2(State.selected_coords(), Coord.grid_cell), Color(0, 1, 1, alpha), false, 2)
 		
-		# if a unit is selected
-		if State.has_unit_at_selected():
-			var unit = State.unit_at_selected()
+		# if a unit is at the selected tile
+		var unit = State.unit_at_selected()
+		if unit:
 			var speed = unit.speed
-			# if State.get_phase() == State.PHASE.MOVE:
-				# draw_movement_arrows(State.selected_index())
 
-			# draw red path from unit to mouse
-			if $TileMapLayer.has_tile_at(Coord.mouse_index()) && State.is_phase(State.PHASE.MOVE):
-				var p = asg.get_id_path(State.selected_index(), Coord.mouse_index())
-				if p.size() <= speed + 1:
-					for i in p:
-						draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)
+			if unit.is_head:
+				# draw red path from unit to mouse
+				if $TileMapLayer.has_tile_at(Coord.mouse_index()) && State.is_phase(State.PHASE.MOVE) && !State.has_unit_at_mouse():
+					var p = asg.get_id_path(State.selected_index(), Coord.mouse_index())
+					if p.size() <= speed + 1:
+						for i in p:
+							draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)
 
-			# draw indicators for where unit can move
-			for x in range(-1 * speed, speed + 1):
-				for y in range(-1 * speed, speed + 1):
-					var t = State.selected_index() + Vector2i(x, y)
-					if $TileMapLayer.has_tile_at(t):
-						var path = asg.get_id_path(State.selected_index(), t)
-						var ti = State.selected_index() + Vector2i(x, y)
-						if $TileMapLayer.has_tile_at(ti) && path.size() <= speed + 1:
-							draw_texture(target_texture, Coord.index_to_coord(ti))
+				# draw indicators for where unit can move
+				for x in range(-1 * speed, speed + 1):
+					for y in range(-1 * speed, speed + 1):
+						var t = State.selected_index() + Vector2i(x, y)
+						if $TileMapLayer.has_tile_at(t):
+							var path = asg.get_id_path(State.selected_index(), t)
+							var ti = State.selected_index() + Vector2i(x, y)
+							if $TileMapLayer.has_tile_at(ti) && path.size() <= speed + 1:
+								draw_texture(target_texture, Coord.index_to_coord(ti))
 
 func is_mouse_on_tile() -> bool:
 	return $TileMapLayer.get_cell_tile_data(Coord.mouse_index()) != null

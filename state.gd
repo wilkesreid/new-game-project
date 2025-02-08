@@ -9,6 +9,8 @@ var selected : Vector2i = Vector2i.ZERO
 # map tile index to unit objects
 var unit_map : Dictionary
 
+## Selection
+
 func selected_index() -> Vector2i:
 	return selected
 
@@ -31,16 +33,32 @@ func clear_selection() -> void:
 	selected = Vector2i.ZERO
 	is_selected = false
 
-func add_unit(position: Vector2i, instance: Node) -> void:
+## Unit Map
+
+func create_unit_at_index(Unit : Resource, index : Vector2i) -> void:
+	if has_unit(index):
+		remove_unit(index)
+	var instance = Unit.instantiate()
+	instance.set_position(Coord.index_to_coord(index))
+	get_tree().root.add_child(instance)	
+	add_unit(index, instance)
+
+func create_unit_at_selected(Unit : Resource) -> void:
+	create_unit_at_index(Unit, selected)
+
+func add_unit(position: Vector2i, instance: Node2D) -> void:
 	unit_map[position] = instance
 
-func unit_at(position: Vector2i) -> Node:
+func unit_at(position: Vector2i) -> Node2D:
 	if has_unit(position):
 		return unit_map[position]
 	return null
 
-func unit_at_selected() -> Node:
+func unit_at_selected() -> Node2D:
 	return unit_at(selected)
+
+func has_unit_at_mouse() -> bool:
+	return has_unit(Coord.mouse_index())
 
 func has_unit(position: Vector2i) -> bool:
 	return unit_map.has(position)
@@ -48,14 +66,18 @@ func has_unit(position: Vector2i) -> bool:
 func has_unit_at_selected() -> bool:
 	return has_unit(selected)
 
-func unit_clear() -> void:
-	unit_map.erase(selected)
+func remove_unit(position: Vector2i) -> void:
+	if has_unit(position):
+		var instance = unit_at(position)
+		get_tree().root.remove_child(instance)
+		unit_map.erase(position)
 
 # doesn't actually move the unit,
 # just updates the map
 func unit_move_index(from : Vector2i, to : Vector2i) -> void:
-	unit_map[to] = unit_at(from)
+	var unit = unit_at(from)
 	unit_map.erase(from)
+	unit_map[to] = unit
 
 # also doesn't move the unit physically,
 # just updates the map
@@ -64,7 +86,8 @@ func unit_move_coord(from : Vector2i, to : Vector2i) -> void:
 	var to_index = Coord.coord_to_index(to)
 	unit_move_index(from_index, to_index)
 
-# game phase
+## Game Phase
+
 enum PHASE { PLACE, MOVE, ENEMY }
 var _phase : PHASE = PHASE.PLACE
 var _set_phase_callbacks : Array[Callable] = []
