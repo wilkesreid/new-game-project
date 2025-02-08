@@ -84,10 +84,6 @@ func _draw() -> void:
 							if $TileMapLayer.has_tile_at(ti) && path.size() > 0 && path.size() <= speed + 1:
 								draw_texture(target_texture, Coord.index_to_coord(ti))
 
-	for i in $TileMapLayer.get_used_cells():
-		if Asg.is_point_solid(i):
-			draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(0, 1, 0, .2), true)
-
 func is_mouse_on_tile() -> bool:
 	return $TileMapLayer.get_cell_tile_data(Coord.mouse_index()) != null
 
