@@ -28,7 +28,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("click") && is_mouse_in_grid():
 		if is_mouse_on_tile():
-			State.select_at_mouse()
+			if State.is_phase(State.PHASE.MOVE) && State.has_unit_at_selected():
+				var path = asg.get_id_path(State.selected_index(), Coord.mouse_index())
+				var unit = State.unit_at_selected()
+				if path.size() <= unit.speed + 1:
+					unit.move_to_coord(Coord.mouse_coord())
+					State.select_at_mouse()
+				else:
+					State.select_at_mouse()
+			else:
+				State.select_at_mouse()
 		else:
 			State.clear_selection()
 
@@ -53,12 +62,12 @@ func _draw() -> void:
 		if State.has_unit_at_selected():
 			var unit = State.unit_at_selected()
 			var speed = unit.speed
-			if State.get_phase() == State.PHASE.MOVE:
-				draw_movement_arrows(State.selected_index())
+			# if State.get_phase() == State.PHASE.MOVE:
+				# draw_movement_arrows(State.selected_index())
 
 			# draw red path from unit to mouse
-			if $TileMapLayer.has_tile_at(Coord.mouse_index()):
-				var p = asg.get_id_path(Coord.mouse_index(), State.selected_index())
+			if $TileMapLayer.has_tile_at(Coord.mouse_index()) && State.is_phase(State.PHASE.MOVE):
+				var p = asg.get_id_path(State.selected_index(), Coord.mouse_index())
 				if p.size() <= speed + 1:
 					for i in p:
 						draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)

@@ -6,7 +6,7 @@ var is_selected = false
 # as tile index
 var selected : Vector2i = Vector2i.ZERO 
 
-# map Vector2 pixel coords to unit objects
+# map tile index to unit objects
 var unit_map : Dictionary
 
 func selected_index() -> Vector2i:
@@ -17,6 +17,14 @@ func selected_coords() -> Vector2i:
 
 func select_at_mouse() -> void:
 	selected = Coord.mouse_index()
+	is_selected = true
+
+func select_index(index: Vector2i) -> void:
+	selected = index
+	is_selected = true
+
+func select_coord(coord: Vector2i) -> void:
+	selected = Coord.coord_to_index(coord)
 	is_selected = true
 
 func clear_selection() -> void:
@@ -40,6 +48,22 @@ func has_unit(position: Vector2i) -> bool:
 func has_unit_at_selected() -> bool:
 	return has_unit(selected)
 
+func unit_clear() -> void:
+	unit_map.erase(selected)
+
+# doesn't actually move the unit,
+# just updates the map
+func unit_move_index(from : Vector2i, to : Vector2i) -> void:
+	unit_map[to] = unit_at(from)
+	unit_map.erase(from)
+
+# also doesn't move the unit physically,
+# just updates the map
+func unit_move_coord(from : Vector2i, to : Vector2i) -> void:
+	var from_index = Coord.coord_to_index(from)
+	var to_index = Coord.coord_to_index(to)
+	unit_move_index(from_index, to_index)
+
 # game phase
 enum PHASE { PLACE, MOVE, ENEMY }
 var _phase : PHASE = PHASE.PLACE
@@ -47,6 +71,9 @@ var _set_phase_callbacks : Array[Callable] = []
 
 func get_phase() -> PHASE:
 	return _phase
+
+func is_phase(phase: PHASE) -> bool:
+	return _phase == phase
 
 func set_phase(new_phase: PHASE) -> void:
 	if !can_goto_phase(new_phase):
