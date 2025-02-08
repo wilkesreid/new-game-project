@@ -16,8 +16,12 @@ func selected_coords() -> Vector2i:
 	return Coord.index_to_coord(selected)
 
 func select_at_mouse() -> void:
-	selected = Coord.get_mouse_index()
+	selected = Coord.mouse_index()
 	is_selected = true
+
+func clear_selection() -> void:
+	selected = Vector2i.ZERO
+	is_selected = false
 
 func add_unit(position: Vector2i, instance: Node) -> void:
 	unit_map[position] = instance
@@ -40,6 +44,9 @@ func has_unit_at_selected() -> bool:
 enum PHASE { PLACE, MOVE, ENEMY }
 var _phase : PHASE = PHASE.PLACE
 var _set_phase_callbacks : Array[Callable] = []
+
+func get_phase() -> PHASE:
+	return _phase
 
 func set_phase(new_phase: PHASE) -> void:
 	if !can_goto_phase(new_phase):

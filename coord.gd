@@ -12,12 +12,12 @@ func index_to_coord(i : Vector2i) -> Vector2i:
 func coord_to_index(v : Vector2i) -> Vector2i:
 	return floor(Vector2(v.x, v.y) / grid_size)
 
-func get_mouse_index() -> Vector2i:
+func mouse_index() -> Vector2i:
 	return coord_to_index(get_global_mouse_position())
 
 # does not return the exact pixel coordinate
 # of the mouse; instead, returns the tile
 # grid aligned coords, always a multiple of the
 # grid cell size
-func get_mouse_coord() -> Vector2i:
-	return index_to_coord(get_mouse_index())
+func mouse_coord() -> Vector2i:
+	return index_to_coord(mouse_index())
