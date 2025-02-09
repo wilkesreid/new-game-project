@@ -22,6 +22,7 @@ func xend() -> int:
 func yend() -> int:
 	return grid.region.end.y
 
+# expects grid index, not pixel coord
 func set_solid(v : Vector2i) -> void:
 	grid.set_point_solid(v, true)
 

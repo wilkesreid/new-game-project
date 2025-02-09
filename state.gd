@@ -33,20 +33,23 @@ func clear_selection() -> void:
 	selected = Vector2i.ZERO
 	is_selected = false
 
-## Unit Map
+## unit Map
 
-func create_unit_at_index(Unit : Resource, index : Vector2i) -> void:
+func create_unit_at_index(rs : Resource, index : Vector2i) -> void:
 	if has_unit(index):
 		remove_unit(index)
-	var instance = Unit.instantiate()
+	var instance = rs.instantiate()
 	instance.set_position(Coord.index_to_coord(index))
 	add_unit(index, instance)
 
-func create_unit_at_selected(Unit : Resource) -> void:
-	create_unit_at_index(Unit, selected)
+func create_unit_at_selected(rs : Resource) -> void:
+	create_unit_at_index(rs, selected)
 
-func add_unit(position: Vector2i, instance: Node2D) -> void:
+func add_unit(position: Vector2i, instance: Unit) -> void:
 	get_tree().root.add_child(instance)
+	add_existing_unit(position, instance)
+
+func add_existing_unit(position: Vector2i, instance: Unit) -> void:
 	unit_map[position] = instance
 	Asg.set_solid(position)
 

@@ -17,7 +17,8 @@ func _ready() -> void:
 		for x in range(Asg.x(), Asg.xend()):
 			Asg.set_solid(Vector2i(x, y))
 	for cell in $TileMapLayer.get_used_cells():
-		Asg.set_not_solid(cell)
+		if !State.has_unit(cell):
+			Asg.set_not_solid(cell)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("click") && is_mouse_in_grid():
@@ -26,12 +27,18 @@ func _process(delta: float) -> void:
 			# If we're in the move phase, and a unit is already selected,
 			# and we didn't just click on a different unit
 			var unit = State.unit_at_selected()
-			if State.is_phase(State.PHASE.MOVE) && unit && unit.is_head && !State.has_unit_at_mouse():
+			if (
+				State.is_phase(State.PHASE.MOVE)
+				and unit
+				and unit.is_head()
+				and !unit.is_enemy()
+				and !State.has_unit_at_mouse()
+			):
 				var path = Asg.get_id_path(State.selected_index(), Coord.mouse_index())
+				path.pop_front() # path by default includes tile unit is already on
 				# move the selected unit if we can
-				if path.size() <= unit.speed + 1:
+				if path.size() <= unit.speed:
 					State.clear_selection()
-					path.pop_front() # path by default includes tile unit is already on
 					for tile in path:
 						unit.move_to_index(tile)
 						await get_tree().create_timer(.1).timeout
