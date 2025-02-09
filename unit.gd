@@ -2,6 +2,12 @@ class_name Unit extends Node2D
 
 @export var bodytexture : Texture2D
 
+func _ready() -> void:
+  State.on_set_phase(func (phase : State.PHASE) -> void:
+    if phase == State.PHASE.MOVE:
+      moves = speed
+  )
+
 # Overridable
 func is_enemy() -> bool:
   return false
@@ -25,6 +31,11 @@ var size : int = 1
 func inc_size() -> void:
   size += 1
 
+var moves : int = 1
+func dec_moves() -> void:
+  assert(moves >= 0)
+  moves -= 1
+
 # body queue
 var body_queue : Array[Node2D] = []
 func pop_body_queue() -> Node2D:
@@ -41,10 +52,13 @@ func index() -> Vector2i:
 
 # assumes we're moving one step at a time
 func move_to_index(target : Vector2) -> void:
+  if moves == 0:
+    return
   var old_position = position
   var old_index = index()
   State.unit_move_index(index(), target)
   position = Coord.index_to_coord(target)
+  dec_moves()
   if max_size > 1:
     var new_segment = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
     new_segment.set_position(old_position)

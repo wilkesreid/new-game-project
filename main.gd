@@ -49,9 +49,15 @@ func _process(delta: float) -> void:
 				State.select_at_mouse()
 		else:
 			State.clear_selection()
-
+	
+	# TODO: Make this more manageable and stable
 	if Input.is_action_just_pressed("next"):
-		State.set_phase(State.PHASE.MOVE)
+		if State.is_phase(State.PHASE.PLACE) and State.can_goto_phase(State.PHASE.MOVE):
+			State.set_phase(State.PHASE.MOVE)
+		elif State.is_phase(State.PHASE.MOVE) and State.can_goto_phase(State.PHASE.ENEMY):
+			State.set_phase(State.PHASE.ENEMY)
+		elif State.is_phase(State.PHASE.ENEMY) and State.can_goto_phase(State.PHASE.MOVE):
+			State.set_phase(State.PHASE.MOVE)
 	time += delta
 	alpha = (sin(time*8)+1)/2
 	queue_redraw()
@@ -72,12 +78,19 @@ func _draw() -> void:
 		var unit = State.unit_at_selected()
 		if unit:
 			var speed = unit.speed
+			var moves = unit.moves
 
-			if unit.is_head:
+			if State.is_phase(State.PHASE.MOVE):
 				# draw red path from unit to mouse
-				if $TileMapLayer.has_tile_at(Coord.mouse_index()) && State.is_phase(State.PHASE.MOVE) && !State.has_unit_at_mouse():
+				if (
+					unit.is_head() and
+					!unit.is_enemy() and
+					$TileMapLayer.has_tile_at(Coord.mouse_index()) and
+					!State.has_unit_at_mouse()
+				):
 					var p = Asg.get_id_path(State.selected_index(), Coord.mouse_index())
-					if p.size() <= speed + 1:
+					p.pop_front()
+					if p.size() <= moves:
 						for i in p:
 							draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)
 
@@ -87,8 +100,9 @@ func _draw() -> void:
 						var t = State.selected_index() + Vector2i(x, y)
 						if $TileMapLayer.has_tile_at(t):
 							var path = Asg.get_id_path(State.selected_index(), t)
+							path.pop_front()
 							var ti = State.selected_index() + Vector2i(x, y)
-							if $TileMapLayer.has_tile_at(ti) && path.size() > 0 && path.size() <= speed + 1:
+							if $TileMapLayer.has_tile_at(ti) && path.size() > 0 && path.size() <= moves:
 								draw_texture(target_texture, Coord.index_to_coord(ti))
 
 func is_mouse_on_tile() -> bool:
