@@ -72,9 +72,9 @@ func has_unit_at_selected() -> bool:
 func remove_unit(position: Vector2i) -> void:
 	if has_unit(position):
 		var instance = unit_at(position)
-		get_tree().root.remove_child(instance)
 		unit_map.erase(position)
 		Asg.set_not_solid(position)
+		instance.queue_free()
 
 # doesn't actually move the unit,
 # just updates the map
