@@ -36,8 +36,7 @@ func clear_selection() -> void:
 ## unit Map
 
 func create_unit_at_index(rs : Resource, index : Vector2i) -> void:
-	if has_unit(index):
-		remove_unit(index)
+	remove_unit(index)
 	var instance = rs.instantiate()
 	instance.set_position(Coord.index_to_coord(index))
 	add_unit(index, instance)
@@ -97,6 +96,7 @@ func unit_move_coord(from : Vector2i, to : Vector2i) -> void:
 
 enum PHASE { PLACE, MOVE, ENEMY }
 var _phase : PHASE = PHASE.PLACE
+# var _phase = PHASE.MOVE # debugging, skip to move phase
 var _set_phase_callbacks : Array[Callable] = []
 
 func get_phase() -> PHASE:
@@ -106,6 +106,7 @@ func is_phase(phase: PHASE) -> bool:
 	return _phase == phase
 
 func set_phase(new_phase: PHASE) -> void:
+	print('set phase to ', new_phase)
 	if !can_goto_phase(new_phase):
 		return # TODO: show why we can't go to the next phase
 	_phase = new_phase

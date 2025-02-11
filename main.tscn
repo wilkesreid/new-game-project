@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://r8aamwenkniq"]
+[gd_scene load_steps=8 format=4 uid="uid://r8aamwenkniq"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_6xwgr"]
 [ext_resource type="Texture2D" uid="uid://cbtaopl0tp0p0" path="res://sprites/tile.png" id="2_72d4w"]
 [ext_resource type="Script" path="res://tile_map_layer.gd" id="3_j7jyc"]
 [ext_resource type="PackedScene" uid="uid://dbkcerqtkko2v" path="res://create_ui.tscn" id="4_a7hnr"]
-[ext_resource type="Script" path="res://enemies/monstieur/monstieur.gd" id="5_740et"]
-[ext_resource type="Texture2D" uid="uid://br38c58bwdmnd" path="res://sprites/monstieur.png" id="5_x21sp"]
+[ext_resource type="PackedScene" uid="uid://drjdp14tkltkj" path="res://enemies/monstieur/monstieur.tscn" id="4_n5dff"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aa8il"]
 texture = ExtResource("2_72d4w")
@@ -27,10 +26,8 @@ tile_map_data = PackedByteArray("AAAEAAQAAAAAAAAAAAAFAAQAAAAAAAAAAAAGAAQAAAAAAAA
 tile_set = SubResource("TileSet_kacxt")
 script = ExtResource("3_j7jyc")
 
-[node name="Monstieur" type="Sprite2D" parent="."]
-position = Vector2(112, 144)
-texture = ExtResource("5_x21sp")
-script = ExtResource("5_740et")
+[node name="Monstieur" parent="." instance=ExtResource("4_n5dff")]
+position = Vector2(96, 128)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

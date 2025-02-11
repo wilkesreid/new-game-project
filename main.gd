@@ -52,11 +52,11 @@ func _process(delta: float) -> void:
 	
 	# TODO: Make this more manageable and stable
 	if Input.is_action_just_pressed("next"):
-		if State.is_phase(State.PHASE.PLACE) and State.can_goto_phase(State.PHASE.MOVE):
+		if State.is_phase(State.PHASE.PLACE):
 			State.set_phase(State.PHASE.MOVE)
-		elif State.is_phase(State.PHASE.MOVE) and State.can_goto_phase(State.PHASE.ENEMY):
+		elif State.is_phase(State.PHASE.MOVE):
 			State.set_phase(State.PHASE.ENEMY)
-		elif State.is_phase(State.PHASE.ENEMY) and State.can_goto_phase(State.PHASE.MOVE):
+		elif State.is_phase(State.PHASE.ENEMY):
 			State.set_phase(State.PHASE.MOVE)
 	time += delta
 	alpha = (sin(time*8)+1)/2
@@ -76,14 +76,13 @@ func _draw() -> void:
 		
 		# if a unit is at the selected tile
 		var unit = State.unit_at_selected()
-		if unit:
+		if unit and unit.is_head():
 			var speed = unit.speed
 			var moves = unit.moves
 
 			if State.is_phase(State.PHASE.MOVE):
 				# draw red path from unit to mouse
 				if (
-					unit.is_head() and
 					!unit.is_enemy() and
 					$TileMapLayer.has_tile_at(Coord.mouse_index()) and
 					!State.has_unit_at_mouse()

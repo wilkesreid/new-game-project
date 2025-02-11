@@ -2,11 +2,21 @@ class_name Unit extends Node2D
 
 @export var bodytexture : Texture2D
 
+# each subclass of unit will need
+# to define its own resource it uses,
+# which should refer to the tscn it's
+# attached to
+var rs : Resource
+
 func _ready() -> void:
-  State.on_set_phase(func (phase : State.PHASE) -> void:
-    if phase == State.PHASE.MOVE:
-      moves = speed
-  )
+  if State.unit_at(index()) != self:
+    State.add_existing_unit(index(), self)
+  if is_head():
+    moves = speed
+    State.on_set_phase(func (phase : State.PHASE) -> void:
+      if phase == State.PHASE.MOVE:
+        moves = speed
+    )
 
 # Overridable
 func is_enemy() -> bool:
@@ -66,6 +76,7 @@ func move_to_index(target : Vector2) -> void:
     State.add_unit(old_index, new_segment)
     push_body_queue(new_segment)
     if !is_max_size():
+      print('not max size yet, ', size, ' of ', max_size)
       inc_size()
     else:
       var old_segment = pop_body_queue()
