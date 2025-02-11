@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 State="*res://state.gd"
 Coord="*res://coord.gd"
 Asg="*res://asg.gd"
+Enemies="*res://enemies.gd"
 
 [display]
 

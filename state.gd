@@ -6,13 +6,9 @@ var is_selected = false
 # as tile index
 var selected : Vector2i = Vector2i.ZERO 
 
-# map tile index to unit objects
-var unit_map : Dictionary
+var map : Dictionary
 
 ## Selection
-
-func selected_index() -> Vector2i:
-	return selected
 
 func selected_coords() -> Vector2i:
 	return Coord.index_to_coord(selected)
@@ -33,64 +29,44 @@ func clear_selection() -> void:
 	selected = Vector2i.ZERO
 	is_selected = false
 
-## unit Map
+## Things on the grid
 
-func create_unit_at_index(rs : Resource, index : Vector2i) -> void:
-	remove_unit(index)
-	var instance = rs.instantiate()
-	instance.set_position(Coord.index_to_coord(index))
-	add_unit(index, instance)
+func add(pos : Vector2i, thing : Placeable):
+	remove(pos)
+	thing.position = pos
+	map[pos] = thing
+	Asg.set_solid(pos)
 
-func create_unit_at_selected(rs : Resource) -> void:
-	create_unit_at_index(rs, selected)
+func remove(pos : Vector2i):
+	if has(pos):
+		map.erase(pos)
+		Asg.set_not_solid(pos)
 
-func add_unit(position: Vector2i, instance: Unit) -> void:
-	get_tree().root.add_child(instance)
-	add_existing_unit(position, instance)
-
-func add_existing_unit(position: Vector2i, instance: Unit) -> void:
-	unit_map[position] = instance
-	Asg.set_solid(position)
-
-func unit_at(position: Vector2i) -> Node2D:
-	if has_unit(position):
-		return unit_map[position]
+func at(pos : Vector2i) -> Placeable:
+	if has(pos):
+		return map[pos]
 	return null
 
-func unit_at_selected() -> Node2D:
-	return unit_at(selected)
+func has(pos : Vector2i) -> bool:
+	return map.has(pos)
 
-func has_unit_at_mouse() -> bool:
-	return has_unit(Coord.mouse_index())
+func at_selected() -> Unit:
+	return at(selected)
 
-func has_unit(position: Vector2i) -> bool:
-	return unit_map.has(position)
+func has_at_selected() -> bool:
+	return has(selected)
 
-func has_unit_at_selected() -> bool:
-	return has_unit(selected)
+func add_at_selected(unit : Placeable) -> void:
+	add(selected, unit)
 
-func remove_unit(position: Vector2i) -> void:
-	if has_unit(position):
-		var instance = unit_at(position)
-		unit_map.erase(position)
-		Asg.set_not_solid(position)
-		instance.queue_free()
+func has_at_mouse() -> bool:
+	return has(Coord.mouse_index())
 
-# doesn't actually move the unit,
-# just updates the map
-func unit_move_index(from : Vector2i, to : Vector2i) -> void:
-	var unit = unit_at(from)
-	unit_map.erase(from)
-	unit_map[to] = unit
-	Asg.set_not_solid(from)
-	Asg.set_solid(to)
-
-# also doesn't move the unit physically,
-# just updates the map
-func unit_move_coord(from : Vector2i, to : Vector2i) -> void:
-	var from_index = Coord.coord_to_index(from)
-	var to_index = Coord.coord_to_index(to)
-	unit_move_index(from_index, to_index)
+func move(from : Vector2i, to : Vector2i) -> void:
+	var thing = at(from)
+	remove(from)
+	remove(to)
+	add(to, thing)
 
 ## Game Phase
 
@@ -119,7 +95,7 @@ func can_goto_phase(phase: PHASE) -> bool:
 			return true
 		PHASE.MOVE:
 			# can't go to move phase if there are no units
-			return !unit_map.is_empty()
+			return !map.is_empty()
 		PHASE.ENEMY:
 			# can't go to enemy's turn if we haven't moved all our units
 			return true # TODO: return false if we haven't finished our turn

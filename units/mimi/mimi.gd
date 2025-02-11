@@ -1,7 +1,7 @@
-extends "res://unit.gd"
+class_name Mimi extends Unit
 
-func _ready() -> void:
-	rs = preload("res://units/mimi/mimi.tscn")
-
+func _init() -> void:
+	texture = load('res://sprites/mimi.png')
+	sprite_body = load('res://sprites/mimi.png')
 	speed = 2
 	super()

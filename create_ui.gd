@@ -10,16 +10,16 @@ func _ready() -> void:
 			hide())
 
 func _on_derpy_button_pressed() -> void:
-	var unit = load("res://units/derpy/derpy.tscn")
+	var unit = Derpy.new()
 	if State.is_selected:
-		State.create_unit_at_selected(unit)
+		State.add_at_selected(unit)
 
 func _on_mimi_button_pressed() -> void:
-	var unit = load("res://units/mimi/mimi.tscn")
+	var unit = Mimi.new()
 	if State.is_selected:
-		State.create_unit_at_selected(unit)
+		State.add_at_selected(unit)
 
 func _on_constellation_button_pressed() -> void:
-	var unit = load("res://units/constellation/constellation.tscn")
+	var unit = Constellation.new()
 	if State.is_selected:
-		State.create_unit_at_selected(unit)
+		State.add_at_selected(unit)
