@@ -10,7 +10,7 @@ var map : Dictionary
 
 ## Selection
 
-func selected_coords() -> Vector2i:
+func selected_coord() -> Vector2i:
 	return Coord.index_to_coord(selected)
 
 func select_at_mouse() -> void:
@@ -33,9 +33,11 @@ func clear_selection() -> void:
 
 func add(pos : Vector2i, thing : Placeable):
 	remove(pos)
-	thing.position = pos
+	thing.index = pos
 	map[pos] = thing
 	Asg.set_solid(pos)
+	if !thing.is_inside_tree():
+		get_tree().root.add_child(thing)
 
 func remove(pos : Vector2i):
 	if has(pos):
@@ -82,7 +84,6 @@ func is_phase(phase: PHASE) -> bool:
 	return _phase == phase
 
 func set_phase(new_phase: PHASE) -> void:
-	print('set phase to ', new_phase)
 	if !can_goto_phase(new_phase):
 		return # TODO: show why we can't go to the next phase
 	_phase = new_phase

@@ -1,7 +1,6 @@
 class_name Mimi extends Unit
 
-func _init() -> void:
-	texture = load('res://sprites/mimi.png')
-	sprite_body = load('res://sprites/mimi.png')
+func _ready() -> void:
+	body = load('res://units/mimi/mimi_body.tscn')
 	speed = 2
 	super()

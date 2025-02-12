@@ -1,16 +1,17 @@
 class_name Unit extends Placeable
 
-var sprite_body : Texture2D
+var body : Resource
 var speed : int = 1
 var max_size : int = 2
 var body_queue : Array[Body] = []
 
-func _init() -> void:
+func _ready() -> void:
   moves = speed
   State.on_set_phase(func (phase : State.PHASE) -> void:
     if phase == State.PHASE.MOVE:
       moves = speed
   )
+  super()
 
 func inc_speed() -> void:
   speed += 1
@@ -34,23 +35,22 @@ func pop_body_queue() -> Body:
 func push_body_queue(segment : Body) -> void:
   body_queue.push_back(segment)
 
-func index() -> Vector2i:
-  return position
-
 # assumes we're moving one step at a time
-func move_to(target : Vector2) -> void:
+func move_to(target : Vector2i) -> void:
   if moves == 0:
     return
-  var from = position
+  var from = index
   State.move(from, target)
+  position = Coord.index_to_coord(target)
   dec_moves()
   if max_size > 1:
-    var new_segment = Body.new(from, sprite_body)
+    var new_segment = body.instantiate()
+    new_segment.index = from
     State.add(from, new_segment)
     push_body_queue(new_segment)
     if !is_max_size():
-      print('not max size yet, ', size, ' of ', max_size)
       inc_size()
     else:
       var old_segment = pop_body_queue()
-      State.remove(old_segment.position)
+      State.remove(old_segment.index)
+      old_segment.queue_free()

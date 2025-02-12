@@ -1,4 +1,10 @@
-class_name Placeable
+class_name Placeable extends Node2D
 
-var texture : Texture2D
-var position : Vector2i
+var index : Vector2i:
+  get:
+    return Coord.coord_to_index(position)
+  set(value):
+    position = Coord.index_to_coord(value)
+
+func _ready() -> void:
+  State.add(index, self)

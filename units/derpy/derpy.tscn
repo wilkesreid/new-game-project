@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvi47nrnfhb0b"]
+
+[ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/derpy.png" id="1_1ku16"]
+[ext_resource type="Script" path="res://units/derpy/derpy.gd" id="1_267cl"]
+
+[node name="Derpy" type="Node2D"]
+script = ExtResource("1_267cl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1ku16")
+centered = false

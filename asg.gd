@@ -30,8 +30,14 @@ func set_not_solid(v : Vector2i) -> void:
 	grid.set_point_solid(v, false)
 
 func is_point_solid(t : Vector2i) -> bool:
-	return grid.is_point_solid(t)
+	if grid.region.has_point(t):
+		return grid.is_point_solid(t)
+	return false
 
 func get_id_path(from : Vector2i, to : Vector2i) -> Array[Vector2i]:
-	return grid.get_id_path(from, to)
+	if grid.region.has_point(from) && grid.region.has_point(to):
+		var path = grid.get_id_path(from, to)
+		path.pop_front()
+		return path
+	return []
 
