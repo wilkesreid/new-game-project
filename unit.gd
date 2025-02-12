@@ -5,6 +5,8 @@ var speed : int = 1
 var max_size : int = 2
 var body_queue : Array[Body] = []
 
+@export var abilities : Array[Ability] = []
+
 func _ready() -> void:
   moves = speed
   State.on_set_phase(func (phase : State.PHASE) -> void:

@@ -4,7 +4,21 @@ extends Node
 var is_selected = false
 
 # as tile index
-var selected : Vector2i = Vector2i.ZERO 
+var _selected : Vector2i = Vector2i.ZERO
+var selected : Vector2i:
+	get:
+		return _selected
+	set(value):
+		_selected = value
+		if value == Vector2i.ZERO:
+			is_selected = false
+			deselect.emit()
+		else:
+			is_selected = true
+			select.emit(value)
+
+signal select(index)
+signal deselect
 
 var map : Dictionary
 
@@ -15,19 +29,15 @@ func selected_coord() -> Vector2i:
 
 func select_at_mouse() -> void:
 	selected = Coord.mouse_index()
-	is_selected = true
 
 func select_index(index: Vector2i) -> void:
 	selected = index
-	is_selected = true
 
 func select_coord(coord: Vector2i) -> void:
 	selected = Coord.coord_to_index(coord)
-	is_selected = true
 
 func clear_selection() -> void:
 	selected = Vector2i.ZERO
-	is_selected = false
 
 ## Things on the grid
 

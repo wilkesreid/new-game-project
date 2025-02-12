@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvi47nrnfhb0b"]
+[gd_scene load_steps=5 format=3 uid="uid://bvi47nrnfhb0b"]
 
 [ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/derpy.png" id="1_1ku16"]
 [ext_resource type="Script" path="res://units/derpy/derpy.gd" id="1_267cl"]
+[ext_resource type="Script" path="res://ability.gd" id="2_u3you"]
+[ext_resource type="Resource" uid="uid://cwthqf3qveaun" path="res://abilities/shoot.tres" id="3_mesvy"]
 
 [node name="Derpy" type="Node2D"]
 script = ExtResource("1_267cl")
+abilities = Array[ExtResource("2_u3you")]([ExtResource("3_mesvy")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_1ku16")

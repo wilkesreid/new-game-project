@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Ability" load_steps=2 format=3 uid="uid://cwthqf3qveaun"]
+
+[ext_resource type="Script" path="res://ability.gd" id="1_rj80v"]
+
+[resource]
+script = ExtResource("1_rj80v")
+name = "Shoot"
+distance = 3
+damage = 1

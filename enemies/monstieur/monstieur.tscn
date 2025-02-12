@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://djc5ql4hifktf"]
+[gd_scene load_steps=5 format=3 uid="uid://djc5ql4hifktf"]
 
 [ext_resource type="Script" path="res://enemies/monstieur/monstieur.gd" id="1_vujsj"]
 [ext_resource type="Texture2D" uid="uid://br38c58bwdmnd" path="res://sprites/monstieur.png" id="2_2iele"]
+[ext_resource type="Script" path="res://ability.gd" id="2_w3t2l"]
+[ext_resource type="Resource" uid="uid://dlvarkplypaay" path="res://abilities/attack.tres" id="3_e3sng"]
 
 [node name="Monstieur" type="Node2D"]
 script = ExtResource("1_vujsj")
+abilities = Array[ExtResource("2_w3t2l")]([ExtResource("3_e3sng")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_2iele")

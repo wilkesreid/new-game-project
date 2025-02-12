@@ -1,4 +1,4 @@
-class_name Derpy extends Unit
+class_name Derpy extends Friendly
 
 func _ready() -> void:
   body = load('res://units/derpy/derpy_body.tscn')

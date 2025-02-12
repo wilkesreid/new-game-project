@@ -6,6 +6,7 @@ func _init():
   State.on_set_phase(func (phase : State.PHASE) -> void:
     if phase == State.PHASE.ENEMY:
       for enemy in enemies:
+        enemy.moves = enemy.speed
         move_algo(enemy)
       State.set_phase(State.PHASE.MOVE)
   )

@@ -1,4 +1,4 @@
-class_name Constellation extends Unit
+class_name Constellation extends Friendly
 
 func _ready() -> void:
 	body = load('res://units/constellation/constellation_body.tscn')
