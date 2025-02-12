@@ -1,15 +1,15 @@
 class_name Unit extends Placeable
 
-var body : Resource
-var speed : int = 1
-var max_size : int = 2
-var body_queue : Array[Body] = []
-
+@export var body : Resource
+@export var speed : int = 1
+@export var max_size : int = 2
 @export var abilities : Array[Ability] = []
+
+var body_queue : Array[Body] = []
 
 func _ready() -> void:
   moves = speed
-  State.on_set_phase(func (phase : State.PHASE) -> void:
+  State.phase_change.connect(func (phase : State.PHASE) -> void:
     if phase == State.PHASE.MOVE:
       moves = speed
   )

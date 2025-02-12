@@ -16,7 +16,7 @@ func _select(index : Vector2i):
   remove_all_buttons()
   var unit = State.at(index)
   if unit != null and unit is Friendly:
-    print(unit.abilities)
+    print(unit)
     for ability in unit.abilities:
       var btn = Button.new()
       btn.text = ability.name

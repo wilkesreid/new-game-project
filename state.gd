@@ -83,25 +83,22 @@ func move(from : Vector2i, to : Vector2i) -> void:
 ## Game Phase
 
 enum PHASE { PLACE, MOVE, ENEMY }
+signal phase_change(new_phase)
 var _phase : PHASE = PHASE.PLACE
-# var _phase = PHASE.MOVE # debugging, skip to move phase
-var _set_phase_callbacks : Array[Callable] = []
+var phase : PHASE:
+	get:
+		return _phase
+	set(new_phase):
+		if !can_goto_phase(new_phase):
+			return # TODO: show why we can't go to the next phase
+		_phase = new_phase
+		phase_change.emit(new_phase)
 
-func get_phase() -> PHASE:
-	return _phase
+func is_phase(p: PHASE) -> bool:
+	return _phase == p
 
-func is_phase(phase: PHASE) -> bool:
-	return _phase == phase
-
-func set_phase(new_phase: PHASE) -> void:
-	if !can_goto_phase(new_phase):
-		return # TODO: show why we can't go to the next phase
-	_phase = new_phase
-	for callable in _set_phase_callbacks:
-		callable.call(new_phase)
-	
-func can_goto_phase(phase: PHASE) -> bool:
-	match phase:
+func can_goto_phase(p: PHASE) -> bool:
+	match p:
 		PHASE.PLACE:
 			return true
 		PHASE.MOVE:
@@ -112,6 +109,3 @@ func can_goto_phase(phase: PHASE) -> bool:
 			return true # TODO: return false if we haven't finished our turn
 		_:
 			return false
-
-func on_set_phase(callable: Callable) -> void:
-	_set_phase_callbacks.append(callable)

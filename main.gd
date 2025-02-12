@@ -49,11 +49,11 @@ func _process(delta: float) -> void:
 	# TODO: Make this more manageable and stable
 	if Input.is_action_just_pressed("next"):
 		if State.is_phase(State.PHASE.PLACE):
-			State.set_phase(State.PHASE.MOVE)
+			State.phase = State.PHASE.MOVE
 		elif State.is_phase(State.PHASE.MOVE):
-			State.set_phase(State.PHASE.ENEMY)
+			State.phase = State.PHASE.ENEMY
 		elif State.is_phase(State.PHASE.ENEMY):
-			State.set_phase(State.PHASE.MOVE)
+			State.phase = State.PHASE.MOVE
 	time += delta
 	alpha = (sin(time*8)+1)/2
 	queue_redraw()

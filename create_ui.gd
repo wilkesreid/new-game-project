@@ -3,7 +3,7 @@ extends Control
 enum UNIT { CONSTELLATION, MIMI, DERPY }
 
 func _ready() -> void:
-	State.on_set_phase(func (new_phase: State.PHASE) -> void:
+	State.phase_change.connect(func (new_phase: State.PHASE) -> void:
 		if new_phase == State.PHASE.PLACE:
 			show()
 		else:

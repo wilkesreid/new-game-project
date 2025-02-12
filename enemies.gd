@@ -3,12 +3,12 @@ extends Node
 var enemies : Array[Unit] = []
 
 func _init():
-  State.on_set_phase(func (phase : State.PHASE) -> void:
+  State.phase_change.connect(func (phase : State.PHASE) -> void:
     if phase == State.PHASE.ENEMY:
       for enemy in enemies:
         enemy.moves = enemy.speed
         move_algo(enemy)
-      State.set_phase(State.PHASE.MOVE)
+      State.phase = State.PHASE.MOVE
   )
 
 func move_algo(enemy : Enemy):
