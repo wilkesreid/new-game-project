@@ -12,6 +12,7 @@ body = ExtResource("2_yjpoe")
 speed = 4
 max_size = 3
 abilities = Array[ExtResource("2_u3you")]([ExtResource("3_mesvy")])
+max_actions = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_1ku16")

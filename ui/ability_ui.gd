@@ -20,6 +20,7 @@ func _select(index : Vector2i):
     for ability in unit.abilities:
       var btn = Button.new()
       btn.text = ability.name
+      btn.connect('pressed', ability.on_button_pressed.bind(unit))
       vflow.add_child(btn)
 
 func _deselect():

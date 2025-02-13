@@ -15,43 +15,63 @@ func _ready() -> void:
 	for cell in $TileMapLayer.get_used_cells():
 		if !State.has(cell):
 			Asg.set_not_solid(cell)
+	
+	State.phase_win.connect(func ():
+		$Control/WinPanel.show()
+	)
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("click") && is_mouse_in_grid():
-		if is_mouse_on_tile():
-
-			# If we're in the move phase, and a unit is already selected,
-			# and we didn't just click on a different unit
-			var unit = State.at_selected()
-			if (
-				State.is_phase(State.PHASE.MOVE)
-				and unit
-				and unit is Unit
-				and unit is not Enemy
-				and !Asg.is_point_solid(Coord.mouse_index())
-				and !State.has_at_mouse()
-			):
-				var path = Asg.get_id_path(State.selected, Coord.mouse_index())
-				# move the selected unit if we can
-				if path.size() <= unit.speed:
-					State.clear_selection()
-					for tile in path:
-						unit.move_to(tile)
-						await get_tree().create_timer(.1).timeout
-					State.select_index(unit.index)
-				else:
-					State.select_at_mouse()
-			else:
-				State.select_at_mouse()
+	if Input.is_action_just_pressed('right_click'):
+		if State.doing_ability:
+			State.end_ability()
 		else:
 			State.clear_selection()
+	if Input.is_action_just_pressed("click") and is_mouse_in_grid():
+		if !is_mouse_on_tile():
+			State.clear_selection()
+		else:
+			# we clicked on a tile
+
+			var unit = State.at_selected()
+			if !State.is_phase(State.PHASE.MOVE):
+				State.select_at_mouse()
+			elif !unit or unit is not Friendly:
+				State.select_at_mouse()
+			else:
+				# we're in the move phase, and we have a unit selected
+				if !State.doing_ability:
+					if State.has_at_mouse():
+						State.select_at_mouse()
+					else:
+						# we aren't doing an ability, and we clicked on an empty tile
+						var path = Asg.get_id_path(State.selected, Coord.mouse_index())
+						if path.size() == 0 or path.size() > unit.moves:
+							State.select_at_mouse()
+						else:
+							# we clicked on a tile we can move to
+							State.clear_selection()
+							for tile in path:
+								unit.move_to(tile)
+								await get_tree().create_timer(.1).timeout
+							State.select_index(unit.index)
+				else:
+					# we're doing an ability
+					var ability = State.current_ability
+					if ability.needs_eyeline:
+						var path = Asg.get_id_path(State.selected, Coord.mouse_index())
+						if path.size() > 0 and path.size() <= ability.distance:
+							ability.execute(Coord.mouse_index())
+							State.end_ability()
+						else:
+							State.end_ability()
+					else:
+						var area = Rect2i(State.selected - Vector2i(ability.distance, ability.distance), Vector2i(ability.distance*2+1, ability.distance*2+1))
+						if area.has_point(Coord.mouse_index()):
+							await ability.execute(Coord.mouse_index())
+							State.end_ability()
+						else:
+							State.end_ability()
 	
-	# TODO: Make this more manageable and stable
-	if Input.is_action_just_pressed("next"):
-		if State.is_phase(State.PHASE.MOVE):
-			State.phase = State.PHASE.ENEMY
-		elif State.is_phase(State.PHASE.ENEMY):
-			State.phase = State.PHASE.MOVE
 	time += delta
 	alpha = (sin(time*8)+1)/2
 	queue_redraw()
@@ -75,26 +95,41 @@ func _draw() -> void:
 			var moves = unit.moves
 
 			if State.is_phase(State.PHASE.MOVE):
-				# draw red path from unit to mouse
-				if (
-					unit is not Enemy and
-					!Asg.is_point_solid(Coord.mouse_index()) and
-					!State.has_at_mouse()
-				):
-					var p = Asg.get_id_path(State.selected, Coord.mouse_index())
-					if p.size() <= moves:
-						for i in p:
-							draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)
+				if !State.doing_ability:
+					# draw red path from unit to mouse
+					if (
+						unit is not Enemy and
+						!Asg.is_point_solid(Coord.mouse_index()) and
+						!State.has_at_mouse()
+					):
+						var p = Asg.get_id_path(State.selected, Coord.mouse_index())
+						if p.size() <= moves:
+							for i in p:
+								draw_rect(Rect2(Coord.index_to_coord(i), Coord.grid_cell), Color(1, 0, 0, .5), true)
 
-				# draw indicators for where unit can move
-				for x in range(-1 * speed, speed + 1):
-					for y in range(-1 * speed, speed + 1):
-						var t = State.selected + Vector2i(x, y)
-						if !Asg.is_point_solid(t):
-							var path = Asg.get_id_path(State.selected, t)
-							var ti = State.selected + Vector2i(x, y)
-							if $TileMapLayer.has_tile_at(ti) && path.size() > 0 && path.size() <= moves:
-								draw_texture(target_texture, Coord.index_to_coord(ti))
+					# draw indicators for where unit can move
+					for x in range(-1 * speed, speed + 1):
+						for y in range(-1 * speed, speed + 1):
+							var t = State.selected + Vector2i(x, y)
+							if !Asg.is_point_solid(t):
+								var path = Asg.get_id_path(State.selected, t)
+								if $TileMapLayer.has_tile_at(t) && path.size() > 0 && path.size() <= moves:
+									draw_texture(target_texture, Coord.index_to_coord(t))
+				
+				# draw indicators for where unit can attack
+				else:
+					var ability = State.current_ability
+					# var ability_unit = State.ability_unit
+					for x in range(-1 * ability.distance, ability.distance + 1):
+						for y in range(-1 * ability.distance, ability.distance + 1):
+							var t = State.selected + Vector2i(x, y)
+							if !Asg.is_point_solid(t) and $TileMapLayer.has_tile_at(t):
+								if !ability.needs_eyeline:
+									draw_texture_rect(target_texture, Rect2i(Coord.index_to_coord(t), Coord.grid_cell), false, Color(1, 0, 0, 1))
+								else:
+									var path = Asg.get_id_path(State.selected, t)
+									if path.size() > 0 and path.size() <= ability.distance:
+										draw_texture_rect(target_texture, Rect2i(Coord.index_to_coord(t), Coord.grid_cell), false, Color(1, 0, 0, 1))
 
 func is_mouse_on_tile() -> bool:
 	return $TileMapLayer.get_cell_tile_data(Coord.mouse_index()) != null

@@ -6,4 +6,5 @@
 script = ExtResource("1_rj80v")
 name = "Shoot"
 distance = 3
-damage = 1
+damage = 2
+needs_eyeline = false

@@ -4,7 +4,7 @@ var bottom_bar : Control
 
 func _ready() -> void:
   bottom_bar = $BottomBar
-  State.phase_change.connect(func (new_phase: State.PHASE) -> void:
+  State.phase_any.connect(func (new_phase : State.PHASE):
     if new_phase == State.PHASE.MOVE:
       bottom_bar.show()
     else:

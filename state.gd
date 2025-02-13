@@ -12,6 +12,7 @@ var selected : Vector2i:
 		_selected = value
 		if value == Vector2i.ZERO:
 			is_selected = false
+			doing_ability = false
 			deselect.emit()
 		else:
 			is_selected = true
@@ -21,6 +22,10 @@ signal select(index)
 signal deselect
 
 var map : Dictionary
+
+var doing_ability : bool = false
+var current_ability : Ability
+var ability_unit : Unit
 
 ## Selection
 
@@ -84,10 +89,25 @@ func move(from : Vector2i, to : Vector2i) -> void:
 	remove(to)
 	add(to, thing)
 
+#Abilities
+func start_ability(ability : Ability, unit : Unit) -> void:
+	current_ability = ability
+	doing_ability = true
+	ability_unit = unit
+
+func end_ability() -> void:
+	current_ability = null
+	ability_unit = null
+	doing_ability = false
+
 ## Game Phase
 
-enum PHASE { PLACE, MOVE, ENEMY }
-signal phase_change(new_phase)
+enum PHASE { PLACE, MOVE, ENEMY, WIN }
+signal phase_place
+signal phase_move
+signal phase_enemy
+signal phase_win
+signal phase_any
 var _phase : PHASE = PHASE.PLACE
 var phase : PHASE:
 	get:
@@ -96,7 +116,16 @@ var phase : PHASE:
 		if !can_goto_phase(new_phase):
 			return # TODO: show why we can't go to the next phase
 		_phase = new_phase
-		phase_change.emit(new_phase)
+		match new_phase:
+			PHASE.PLACE:
+				phase_place.emit()
+			PHASE.MOVE:
+				phase_move.emit()
+			PHASE.ENEMY:
+				phase_enemy.emit()
+			PHASE.WIN:
+				phase_win.emit()
+		phase_any.emit(new_phase)
 
 func is_phase(p: PHASE) -> bool:
 	return _phase == p
@@ -113,5 +142,7 @@ func can_goto_phase(p: PHASE) -> bool:
 		PHASE.ENEMY:
 			# can't go to enemy's turn if we haven't moved all our units
 			return true # TODO: return false if we haven't finished our turn
+		PHASE.WIN:
+			return Enemies.enemies.size() == 0
 		_:
 			return false
