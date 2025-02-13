@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://crknpiu4ckqfb"]
+
+[ext_resource type="Script" path="res://ui/in_game_ui.gd" id="1_af48y"]
+[ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="1_h8lov"]
+[ext_resource type="PackedScene" uid="uid://rnikloryco53" path="res://ui/ability_ui.tscn" id="2_nb7f3"]
+
+[node name="InGameUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_h8lov")
+script = ExtResource("1_af48y")
+
+[node name="AbilityUi" parent="." instance=ExtResource("2_nb7f3")]
+layout_mode = 1
+
+[node name="BottomBar" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Button" type="Button" parent="BottomBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "End Turn"
+
+[connection signal="pressed" from="BottomBar/MarginContainer/Button" to="." method="_on_end_turn_button_pressed"]

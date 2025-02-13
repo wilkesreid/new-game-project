@@ -4,6 +4,7 @@ var vflow : VFlowContainer
 
 func _ready() -> void:
   vflow = get_node('PanelContainer/MarginContainer/VFlowContainer')
+  remove_all_buttons()
   State.select.connect(_select)
   State.deselect.connect(_deselect)
 
@@ -16,7 +17,6 @@ func _select(index : Vector2i):
   remove_all_buttons()
   var unit = State.at(index)
   if unit != null and unit is Friendly:
-    print(unit)
     for ability in unit.abilities:
       var btn = Button.new()
       btn.text = ability.name

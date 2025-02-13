@@ -39,6 +39,10 @@ func select_coord(coord: Vector2i) -> void:
 func clear_selection() -> void:
 	selected = Vector2i.ZERO
 
+func retrigger_select() -> void:
+	if is_selected:
+		select_index(selected)
+
 ## Things on the grid
 
 func add(pos : Vector2i, thing : Placeable):
@@ -103,7 +107,9 @@ func can_goto_phase(p: PHASE) -> bool:
 			return true
 		PHASE.MOVE:
 			# can't go to move phase if there are no units
-			return !map.is_empty()
+			return map.values().any(func (unit):
+				return unit is Friendly
+			)
 		PHASE.ENEMY:
 			# can't go to enemy's turn if we haven't moved all our units
 			return true # TODO: return false if we haven't finished our turn

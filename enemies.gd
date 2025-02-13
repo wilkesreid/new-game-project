@@ -7,7 +7,7 @@ func _init():
     if phase == State.PHASE.ENEMY:
       for enemy in enemies:
         enemy.moves = enemy.speed
-        move_algo(enemy)
+        await move_algo(enemy)
       State.phase = State.PHASE.MOVE
   )
 

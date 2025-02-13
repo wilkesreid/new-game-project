@@ -4,10 +4,9 @@ enum UNIT { CONSTELLATION, MIMI, DERPY }
 
 func _ready() -> void:
 	State.phase_change.connect(func (new_phase: State.PHASE) -> void:
-		if new_phase == State.PHASE.PLACE:
-			show()
-		else:
-			hide())
+		if new_phase != State.PHASE.PLACE:
+			queue_free()
+	)
 
 func create_at_selected(scene_path : String) -> void:
 	var instance = load(scene_path).instantiate()
@@ -22,3 +21,8 @@ func _on_mimi_button_pressed() -> void:
 
 func _on_constellation_button_pressed() -> void:
 	create_at_selected("res://units/constellation/constellation.tscn")
+
+
+func _on_start_button_pressed() -> void:
+	State.phase = State.PHASE.MOVE
+	State.retrigger_select()
