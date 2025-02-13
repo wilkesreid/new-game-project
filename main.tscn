@@ -30,9 +30,9 @@ script = ExtResource("3_j7jyc")
 
 [node name="Monstieur" parent="." instance=ExtResource("4_n5dff")]
 position = Vector2(96, 128)
-speed = null
-max_size = null
-max_actions = null
+
+[node name="Monstieur2" parent="." instance=ExtResource("4_n5dff")]
+position = Vector2(192, 256)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
