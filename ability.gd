@@ -14,7 +14,17 @@ func execute(target : Vector2i) -> void:
   State.ability_unit.actions_remaining -= 1
   var unit = State.at(target)
   if unit:
-    if unit is Enemy:
+    if ability_may_damage(unit):
       await unit.take_damage(damage)
-    if unit is Body and unit.parent is Enemy:
+    if ability_may_damage_body(unit):
       await unit.parent.take_damage(damage)
+  State.end_ability()
+
+func ability_may_damage(unit : Placeable) -> bool:
+  return (unit is Enemy and State.ability_unit is Friendly) or (unit is Friendly and State.ability_unit is Enemy)
+
+func ability_may_damage_body(body : Placeable) -> bool:
+  return (body is Body and (
+    (State.ability_unit is Friendly and body.parent is Enemy)
+    or (State.ability_unit is Enemy and body.parent is Friendly)
+  ))

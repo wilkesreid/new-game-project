@@ -71,4 +71,4 @@ func take_damage(amount : int) -> void:
     var deleting = pop_body_queue()
     State.remove(deleting.index)
     deleting.queue_free()
-    await get_tree().create_timer(0.1).timeout
+    await get_tree().create_timer(State.game_speed).timeout

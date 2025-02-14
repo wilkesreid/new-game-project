@@ -52,7 +52,7 @@ func _process(delta: float) -> void:
 							State.clear_selection()
 							for tile in path:
 								unit.move_to(tile)
-								await get_tree().create_timer(.1).timeout
+								await get_tree().create_timer(State.game_speed).timeout
 							State.select_index(unit.index)
 				else:
 					# we're doing an ability
@@ -68,7 +68,6 @@ func _process(delta: float) -> void:
 						var area = Rect2i(State.selected - Vector2i(ability.distance, ability.distance), Vector2i(ability.distance*2+1, ability.distance*2+1))
 						if area.has_point(Coord.mouse_index()):
 							await ability.execute(Coord.mouse_index())
-							State.end_ability()
 						else:
 							State.end_ability()
 	
@@ -116,20 +115,20 @@ func _draw() -> void:
 								if $TileMapLayer.has_tile_at(t) && path.size() > 0 && path.size() <= moves:
 									draw_texture(target_texture, Coord.index_to_coord(t))
 				
-				# draw indicators for where unit can attack
-				else:
-					var ability = State.current_ability
-					# var ability_unit = State.ability_unit
-					for x in range(-1 * ability.distance, ability.distance + 1):
-						for y in range(-1 * ability.distance, ability.distance + 1):
-							var t = State.selected + Vector2i(x, y)
-							if !Asg.is_point_solid(t) and $TileMapLayer.has_tile_at(t):
-								if !ability.needs_eyeline:
-									draw_texture_rect(target_texture, Rect2i(Coord.index_to_coord(t), Coord.grid_cell), false, Color(1, 0, 0, 1))
-								else:
-									var path = Asg.get_id_path(State.selected, t)
-									if path.size() > 0 and path.size() <= ability.distance:
-										draw_texture_rect(target_texture, Rect2i(Coord.index_to_coord(t), Coord.grid_cell), false, Color(1, 0, 0, 1))
+	if State.doing_ability:
+		# draw indicators for where unit can attack
+		var ability = State.current_ability
+		# var ability_unit = State.ability_unit
+		for x in range(-1 * ability.distance, ability.distance + 1):
+			for y in range(-1 * ability.distance, ability.distance + 1):
+				var t = State.ability_unit.index + Vector2i(x, y)
+				if !Asg.is_point_solid(t) and $TileMapLayer.has_tile_at(t):
+					if !ability.needs_eyeline:
+						draw_texture_rect(target_texture, Rect2i(Coord.index_to_coord(t), Coord.grid_cell), false, Color(1, 0, 0, 1))
+					else:
+						var path = Asg.get_id_path(State.ability_unit.index, t)
+						if path.size() > 0 and path.size() <= ability.distance:
+							draw_texture_rect(target_texture, Rect2i(Coord.index_to_coord(t), Coord.grid_cell), false, Color(1, 0, 0, 1))
 
 func is_mouse_on_tile() -> bool:
 	return $TileMapLayer.get_cell_tile_data(Coord.mouse_index()) != null

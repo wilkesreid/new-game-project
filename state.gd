@@ -1,5 +1,7 @@
 extends Node
 
+var game_speed : float = .3
+
 # tile selection
 var is_selected = false
 
@@ -17,6 +19,8 @@ var selected : Vector2i:
 		else:
 			is_selected = true
 			select.emit(value)
+			print('selected ', value)
+			print('unit at selected: ', at(value), ', is body: ', at(value) is Body, ', is solid: ', Asg.is_point_solid(value))
 
 signal select(index)
 signal deselect
