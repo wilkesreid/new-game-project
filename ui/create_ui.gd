@@ -16,13 +16,16 @@ func create_at_selected(scene_path : String) -> void:
 	get_tree().root.add_child(instance)
 
 func _on_derpy_button_pressed() -> void:
-	create_at_selected("res://units/derpy/derpy.tscn")
+	if State.is_selected:
+		create_at_selected("res://units/derpy/derpy.tscn")
 
 func _on_mimi_button_pressed() -> void:
-	create_at_selected("res://units/mimi/mimi.tscn")	
+	if State.is_selected:
+		create_at_selected("res://units/mimi/mimi.tscn")	
 
 func _on_constellation_button_pressed() -> void:
-	create_at_selected("res://units/constellation/constellation.tscn")
+	if State.is_selected:
+		create_at_selected("res://units/constellation/constellation.tscn")
 
 
 func _on_start_button_pressed() -> void:

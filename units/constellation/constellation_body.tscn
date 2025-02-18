@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bmcjaqe83ojf4"]
 
-[ext_resource type="Texture2D" uid="uid://dm3n4162e1hk" path="res://sprites/constellation_body.png" id="1_b22ce"]
+[ext_resource type="Texture2D" uid="uid://dm3n4162e1hk" path="res://sprites/units/constellation_body.png" id="1_b22ce"]
 [ext_resource type="Script" path="res://body.gd" id="1_dnc44"]
 
 [node name="ConstellationBody" type="Node2D"]

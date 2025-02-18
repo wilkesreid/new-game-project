@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcoo3c3c7lyf4"
-path="res://.godot/imported/derpy.png-83815e901363746113cbdcfb4acf681d.ctex"
+uid="uid://dq6ccj4jg8hbn"
+path="res://.godot/imported/face_body.png-e2d70ddfba0121c0e2b1f377d3586ddd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/derpy.png"
-dest_files=["res://.godot/imported/derpy.png-83815e901363746113cbdcfb4acf681d.ctex"]
+source_file="res://sprites/enemies/face_body.png"
+dest_files=["res://.godot/imported/face_body.png-e2d70ddfba0121c0e2b1f377d3586ddd.ctex"]
 
 [params]
 

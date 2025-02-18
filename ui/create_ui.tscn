@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dbkcerqtkko2v"]
 
 [ext_resource type="Script" path="res://ui/create_ui.gd" id="1_llmcw"]
-[ext_resource type="Texture2D" uid="uid://cnd703a23gcb8" path="res://sprites/constellation.png" id="2_vfjjj"]
-[ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/mimi.png" id="3_xh43v"]
-[ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/derpy.png" id="4_y6gau"]
+[ext_resource type="Texture2D" uid="uid://cnd703a23gcb8" path="res://sprites/units/constellation.png" id="2_vfjjj"]
+[ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/units/mimi.png" id="3_xh43v"]
+[ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/units/derpy.png" id="4_y6gau"]
 
 [node name="create_ui" type="Control"]
 layout_mode = 3

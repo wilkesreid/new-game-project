@@ -1,13 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://kelppoylw7r5"]
+[gd_scene load_steps=6 format=3 uid="uid://kelppoylw7r5"]
 
-[ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/mimi.png" id="1_u030v"]
+[ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/units/mimi.png" id="1_u030v"]
 [ext_resource type="Script" path="res://friendly.gd" id="1_wcu2r"]
 [ext_resource type="PackedScene" uid="uid://dauomkc0dea0e" path="res://units/mimi/mimi_body.tscn" id="2_nilpo"]
+[ext_resource type="Script" path="res://ability.gd" id="3_fjj2o"]
+[ext_resource type="Resource" uid="uid://c8id0rcm8ior" path="res://abilities/super_shoot.tres" id="4_cos8d"]
 
 [node name="Mimi" type="Node2D"]
 script = ExtResource("1_wcu2r")
 body = ExtResource("2_nilpo")
 speed = 2
+abilities = Array[ExtResource("3_fjj2o")]([ExtResource("4_cos8d")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_u030v")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm77oaj36ek6a"
-path="res://.godot/imported/monstieur_body.png-baedeb2ca4b75fc8c9bc6352a0c916ce.ctex"
+uid="uid://br38c58bwdmnd"
+path="res://.godot/imported/monstieur.png-27518416ed300f8514afec90a5857726.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/monstieur_body.png"
-dest_files=["res://.godot/imported/monstieur_body.png-baedeb2ca4b75fc8c9bc6352a0c916ce.ctex"]
+source_file="res://sprites/enemies/monstieur.png"
+dest_files=["res://.godot/imported/monstieur.png-27518416ed300f8514afec90a5857726.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm3n4162e1hk"
-path="res://.godot/imported/constellation_body.png-931ed8654f08b0c77a36fcc57023d7b6.ctex"
+uid="uid://bdmxjhgeo4yen"
+path="res://.godot/imported/face.png-dfc91e4d1de8af9cc2405815b03b52a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/constellation_body.png"
-dest_files=["res://.godot/imported/constellation_body.png-931ed8654f08b0c77a36fcc57023d7b6.ctex"]
+source_file="res://sprites/enemies/face.png"
+dest_files=["res://.godot/imported/face.png-dfc91e4d1de8af9cc2405815b03b52a4.ctex"]
 
 [params]
 

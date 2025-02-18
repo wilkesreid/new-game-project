@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boqkichfcrh4j"
-path="res://.godot/imported/derpy_body.png-1a762c74ccc1fa51902e15d25cf25c1b.ctex"
+uid="uid://dm77oaj36ek6a"
+path="res://.godot/imported/monstieur_body.png-c2b0aae2efffc774a4d2e1845a489244.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/derpy_body.png"
-dest_files=["res://.godot/imported/derpy_body.png-1a762c74ccc1fa51902e15d25cf25c1b.ctex"]
+source_file="res://sprites/enemies/monstieur_body.png"
+dest_files=["res://.godot/imported/monstieur_body.png-c2b0aae2efffc774a4d2e1845a489244.ctex"]
 
 [params]
 

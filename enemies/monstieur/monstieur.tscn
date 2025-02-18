@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://djc5ql4hifktf"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_iv8pi"]
-[ext_resource type="Texture2D" uid="uid://br38c58bwdmnd" path="res://sprites/monstieur.png" id="2_2iele"]
+[ext_resource type="Texture2D" uid="uid://br38c58bwdmnd" path="res://sprites/enemies/monstieur.png" id="2_2iele"]
 [ext_resource type="PackedScene" uid="uid://dkjfwand2c22x" path="res://enemies/monstieur/monstieur_body.tscn" id="2_28dlg"]
 [ext_resource type="Script" path="res://ability.gd" id="2_w3t2l"]
 [ext_resource type="Resource" uid="uid://dlvarkplypaay" path="res://abilities/attack.tres" id="3_e3sng"]

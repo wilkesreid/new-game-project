@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Ability" load_steps=2 format=3 uid="uid://c8id0rcm8ior"]
+
+[ext_resource type="Script" path="res://ability.gd" id="1_k43cv"]
+
+[resource]
+script = ExtResource("1_k43cv")
+name = "Super Shoot"
+distance = 5
+damage = 3
+needs_eyeline = false
