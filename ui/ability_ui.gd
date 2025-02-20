@@ -20,7 +20,11 @@ func _select(index : Vector2i):
     for ability in unit.abilities:
       var btn = Button.new()
       btn.text = ability.name
-      btn.connect('pressed', ability.on_button_pressed.bind(unit))
+      btn.action_mode = Button.ACTION_MODE_BUTTON_PRESS
+      btn.mouse_filter = Button.MOUSE_FILTER_STOP
+      btn.connect('gui_input', func (event : InputEvent):
+        ability.gui_input(event, unit)
+      )
       vflow.add_child(btn)
 
 func _deselect():

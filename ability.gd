@@ -6,9 +6,11 @@ class_name Ability
 @export var damage : int = 1
 @export var needs_eyeline : bool = false
 
-func on_button_pressed(unit : Unit) -> void:
-  if unit.actions_remaining > 0:
-    State.start_ability(self, unit)
+func gui_input(event : InputEvent, unit : Unit) -> void:
+  if event.is_action_pressed('click'):
+    if unit.actions_remaining > 0:
+      Sfx.play('Click')
+      State.start_ability(self, unit)
 
 func execute(target : Vector2i) -> void:
   State.ability_unit.actions_remaining -= 1

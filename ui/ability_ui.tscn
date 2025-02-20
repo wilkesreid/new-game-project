@@ -30,4 +30,5 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="PanelContainer/MarginContainer/VFlowContainer"]
 layout_mode = 2
+action_mode = 0
 text = "Example"

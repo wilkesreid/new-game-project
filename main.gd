@@ -35,23 +35,10 @@ func mouse_move():
 		var moves = unit.moves
 		var path = Asg.get_id_path(State.selected, Coord.mouse_index())
 		if State.tilemap_layer.has_tile_at(Coord.mouse_index()) && path.size() > 0 && path.size() <= moves:
-			$Audio/Tick.play()
+			Sfx.play('Tick')
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed('quit'):
-		get_tree().quit()
-
-	if Coord.mouse_index() != last_mouse_index:
-		mouse_move()
-		last_mouse_index = Coord.mouse_index()
-
-	# everything below here needs to be reorganized and redone
-	if Input.is_action_just_pressed('right_click'):
-		if State.doing_ability:
-			State.end_ability()
-		else:
-			State.clear_selection()
-	if Input.is_action_just_pressed("click") and is_mouse_in_grid():
+func _unhandled_input(event : InputEvent):
+	if event.is_action_pressed("click") and is_mouse_in_grid():
 		if !is_mouse_on_tile():
 			State.clear_selection()
 		else:
@@ -87,6 +74,21 @@ func _process(delta: float) -> void:
 						State.end_ability()
 					else:
 						State.end_ability()
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed('quit'):
+		get_tree().quit()
+
+	if Coord.mouse_index() != last_mouse_index:
+		mouse_move()
+		last_mouse_index = Coord.mouse_index()
+
+	# everything below here needs to be reorganized and redone
+	if Input.is_action_just_pressed('right_click'):
+		if State.doing_ability:
+			State.end_ability()
+		else:
+			State.clear_selection()
 	
 	time += delta
 	alpha = (sin(time*8)+1)/2
