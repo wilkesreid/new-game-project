@@ -27,7 +27,14 @@ func _on_constellation_button_pressed() -> void:
 	if State.is_selected:
 		create_at_selected("res://units/constellation/constellation.tscn")
 
+func _on_knife_button_pressed():
+	if State.is_selected:
+		create_at_selected("res://units/knife/knife.tscn")
+		$Audio/Click.play()
 
 func _on_start_button_pressed() -> void:
 	State.phase = State.PHASE.MOVE
 	State.retrigger_select()
+
+func _on_button_mouse_entered():
+	$Audio/Hover.play()

@@ -7,6 +7,8 @@ var alpha : float = 0
 
 var navmap : NavigationServer2D
 
+var last_mouse_index : Vector2i = Vector2i.ZERO
+
 func _ready() -> void:
 	Asg.setup($TileMapLayer.get_used_rect())
 	for y in range(Asg.y(), Asg.yend()):
@@ -20,7 +22,26 @@ func _ready() -> void:
 		$Control/WinPanel.show()
 	)
 
+func select_at_mouse():
+	if State.has_at_mouse():
+		$Audio/SelectUnit.play()
+	else:
+		$Audio/Select.play()
+	State.select_at_mouse()
+
+func mouse_move():
+	var unit = State.at_selected()
+	if unit and unit is Friendly:
+		var moves = unit.moves
+		var path = Asg.get_id_path(State.selected, Coord.mouse_index())
+		if $TileMapLayer.has_tile_at(Coord.mouse_index()) && path.size() > 0 && path.size() <= moves:
+			$Audio/Tick.play()
+
 func _process(delta: float) -> void:
+	if Coord.mouse_index() != last_mouse_index:
+		mouse_move()
+		last_mouse_index = Coord.mouse_index()
+
 	if Input.is_action_just_pressed('right_click'):
 		if State.doing_ability:
 			State.end_ability()
@@ -34,19 +55,19 @@ func _process(delta: float) -> void:
 
 			var unit = State.at_selected()
 			if !State.is_phase(State.PHASE.MOVE):
-				State.select_at_mouse()
+				select_at_mouse()
 			elif !unit or unit is not Friendly:
-				State.select_at_mouse()
+				select_at_mouse()
 			else:
 				# we're in the move phase, and we have a unit selected
 				if !State.doing_ability:
 					if State.has_at_mouse():
-						State.select_at_mouse()
+						select_at_mouse()
 					else:
 						# we aren't doing an ability, and we clicked on an empty tile
 						var path = Asg.get_id_path(State.selected, Coord.mouse_index())
 						if path.size() == 0 or path.size() > unit.moves:
-							State.select_at_mouse()
+							select_at_mouse()
 						else:
 							# we clicked on a tile we can move to
 							State.clear_selection()

@@ -1,6 +1,6 @@
 extends Node
 
-var game_speed : float = .3
+var game_speed : float = .25
 
 # tile selection
 var is_selected = false

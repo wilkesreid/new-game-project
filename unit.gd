@@ -6,6 +6,10 @@ class_name Unit extends Placeable
 @export var abilities : Array[Ability] = []
 @export var max_actions : int = 1
 
+var sfx_move_file : FileAccess
+var sfx_move_stream : AudioStreamWAV
+var sfx_move_player : AudioStreamPlayer
+
 var actions_remaining: int = 1
 var body_queue : Array[Body] = []
 
@@ -48,6 +52,7 @@ func move_to(target : Vector2i) -> void:
   State.move(from, target)
   position = Coord.index_to_coord(target)
   dec_moves()
+  Sfx.play('Move')
   if max_size > 1:
     var new_segment = body.instantiate()
     new_segment.index = from

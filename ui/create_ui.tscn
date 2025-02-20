@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbkcerqtkko2v"]
+[gd_scene load_steps=10 format=3 uid="uid://dbkcerqtkko2v"]
 
 [ext_resource type="Script" path="res://ui/create_ui.gd" id="1_llmcw"]
 [ext_resource type="Texture2D" uid="uid://cnd703a23gcb8" path="res://sprites/units/constellation.png" id="2_vfjjj"]
 [ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/units/mimi.png" id="3_xh43v"]
 [ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/units/derpy.png" id="4_y6gau"]
+[ext_resource type="Texture2D" uid="uid://bm616x7t1hejg" path="res://sprites/assets/1/2 Frames/Frame_02.png" id="5_vf02f"]
+[ext_resource type="Texture2D" uid="uid://chaoqejyxpsbx" path="res://sprites/assets/1/2 Frames/Frame_07.png" id="6_8kfsn"]
+[ext_resource type="Texture2D" uid="uid://ik403uvg27en" path="res://sprites/assets/1/1 Icons/2/Skillicon2_15.png" id="6_hhsra"]
+[ext_resource type="AudioStream" uid="uid://dtsjkcens08x" path="res://sfx/tick.wav" id="8_yw45a"]
+[ext_resource type="AudioStream" uid="uid://db4rwo2rwb6ck" path="res://sfx/blipSelect2.wav" id="9_5ludl"]
 
 [node name="create_ui" type="Control"]
 layout_mode = 3
@@ -15,7 +20,7 @@ grow_vertical = 2
 script = ExtResource("1_llmcw")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -31,21 +36,44 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HFlowContainer" type="HFlowContainer" parent="PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ConstellationButton" type="TextureButton" parent="PanelContainer/MarginContainer/HFlowContainer"]
+[node name="ConstellationButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+visible = false
 texture_filter = 2
 layout_mode = 2
 texture_normal = ExtResource("2_vfjjj")
 
-[node name="MimiButton" type="TextureButton" parent="PanelContainer/MarginContainer/HFlowContainer"]
+[node name="MimiButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("3_xh43v")
 
-[node name="DerpyButton" type="TextureButton" parent="PanelContainer/MarginContainer/HFlowContainer"]
+[node name="DerpyButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("4_y6gau")
+
+[node name="KnifeButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 4
+action_mode = 0
+texture_normal = ExtResource("5_vf02f")
+texture_hover = ExtResource("6_8kfsn")
+stretch_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/KnifeButton"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 47.0
+
+[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/KnifeButton/MarginContainer"]
+scale = Vector2(1.4375, 1.46875)
+texture = ExtResource("6_hhsra")
+centered = false
 
 [node name="Button" type="Button" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
@@ -53,7 +81,20 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 text = "Start"
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/HFlowContainer/ConstellationButton" to="." method="_on_constellation_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/HFlowContainer/MimiButton" to="." method="_on_mimi_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/HFlowContainer/DerpyButton" to="." method="_on_derpy_button_pressed"]
+[node name="Audio" type="Node" parent="."]
+
+[node name="Hover" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("8_yw45a")
+bus = &"sfx"
+
+[node name="Click" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_5ludl")
+bus = &"sfx"
+
+[connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/ConstellationButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/ConstellationButton" to="." method="_on_constellation_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/MimiButton" to="." method="_on_mimi_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/DerpyButton" to="." method="_on_derpy_button_pressed"]
+[connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_knife_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Button" to="." method="_on_start_button_pressed"]
