@@ -7,3 +7,4 @@ script = ExtResource("1_mdsxm")
 name = "Attack"
 distance = 1
 damage = 2
+needs_eyeline = false

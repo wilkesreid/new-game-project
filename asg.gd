@@ -42,3 +42,12 @@ func get_id_path(from : Vector2i, to : Vector2i) -> Array[Vector2i]:
 		return path
 	return []
 
+func get_id_path_ignore_dest(from : Vector2i, to : Vector2i) -> Array[Vector2i]:
+	var to_solid = is_point_solid(to)
+	if to_solid:
+		set_not_solid(to)
+	var path = get_id_path(from, to)
+	if to_solid:
+		set_solid(to)
+	return path
+

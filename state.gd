@@ -5,6 +5,9 @@ var game_speed : float = .25
 # tile selection
 var is_selected = false
 
+var tilemap_layer : TileMapLayer
+var units_container : Node2D
+
 # as tile index
 var _selected : Vector2i = Vector2i.ZERO
 var selected : Vector2i:
@@ -60,7 +63,7 @@ func add(pos : Vector2i, thing : Placeable):
 	map[pos] = thing
 	Asg.set_solid(pos)
 	if !thing.is_inside_tree():
-		get_tree().root.add_child(thing)
+		units_container.add_child(thing)
 
 func remove(pos : Vector2i):
 	if has(pos):

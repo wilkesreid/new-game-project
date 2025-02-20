@@ -13,7 +13,7 @@ func create_at_selected(scene_path : String) -> void:
 		State.at_selected().queue_free()
 	var instance = load(scene_path).instantiate()
 	instance.position = State.selected_coord()
-	get_tree().root.add_child(instance)
+	State.units_container.add_child(instance)
 
 func _on_derpy_button_pressed() -> void:
 	if State.is_selected:

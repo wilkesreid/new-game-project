@@ -4,14 +4,14 @@
 [ext_resource type="Script" path="res://enemy.gd" id="1_u6qil"]
 [ext_resource type="PackedScene" uid="uid://dfurr2xc4rr83" path="res://enemies/corrupted_eye/corrupted_eye_body.tscn" id="2_ihs1p"]
 [ext_resource type="Script" path="res://ability.gd" id="3_pmm7m"]
-[ext_resource type="Resource" uid="uid://dlvarkplypaay" path="res://abilities/attack.tres" id="4_iohqd"]
+[ext_resource type="Resource" uid="uid://cwthqf3qveaun" path="res://abilities/shoot.tres" id="4_cfg4g"]
 
 [node name="CorruptedEye" type="Node2D"]
 script = ExtResource("1_u6qil")
 body = ExtResource("2_ihs1p")
-speed = 3
-max_size = 4
-abilities = Array[ExtResource("3_pmm7m")]([ExtResource("4_iohqd")])
+speed = 2
+max_size = 3
+abilities = Array[ExtResource("3_pmm7m")]([ExtResource("4_cfg4g")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_04fii")

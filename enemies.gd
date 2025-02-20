@@ -22,12 +22,13 @@ func move_algo(enemy : Enemy):
   var move_path_size = path.size() - 1
   var moves_done = 0
   try_ability(enemy, path, target_unit, moves_done)
-  for i in range(min(enemy.moves, move_path_size)):
-    enemy.move_to(path[i])
-    moves_done += 1
-    # if enemy is in range to use their ability, go ahead and use it
-    try_ability(enemy, path, target_unit, moves_done)
-    await get_tree().create_timer(State.game_speed).timeout
+  if is_instance_valid(target_unit):
+    for i in range(min(enemy.moves, move_path_size)):
+      enemy.move_to(path[i])
+      moves_done += 1
+      # if enemy is in range to use their ability, go ahead and use it
+      try_ability(enemy, path, target_unit, moves_done)
+      await get_tree().create_timer(State.game_speed).timeout
 
 func try_ability(enemy : Enemy, path : Array[Vector2i], target_unit : Placeable, moves_done : int):
   if enemy.abilities.size() > 0:

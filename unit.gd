@@ -67,9 +67,13 @@ func move_to(target : Vector2i) -> void:
       old_segment.queue_free()
 
 func take_damage(amount : int) -> void:
+  if amount <= 0:
+    return
   for i in range(amount):
+    Sfx.play('Damage')
     size -= 1
     if size == 0:
+      Sfx.play('Death')
       State.remove(index)
       queue_free()
       break
