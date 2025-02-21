@@ -95,16 +95,8 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var iv = Coord.mouse_index()
-
-	# draw white rect around tile under mouse
-	if State.tilemap_layer.has_tile_at(iv):
-		draw_rect(Rect2(Coord.index_to_coord(iv), Coord.grid_cell), Color(1, 1, 1, alpha), false, 2)
-	
 	# if any tile is selected
 	if State.is_selected:
-		# draw flashing blue rect around selected tile
-		draw_rect(Rect2(State.selected_coord(), Coord.grid_cell), Color(0, 1, 1, alpha), false, 2)
 		
 		# if a unit is at the selected tile
 		var unit = State.at_selected()

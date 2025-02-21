@@ -98,13 +98,11 @@ func move(from : Vector2i, to : Vector2i) -> void:
 
 #Abilities
 func start_ability(ability : Ability, unit : Unit) -> void:
-	print('start ability')
 	current_ability = ability
 	doing_ability = true
 	ability_unit = unit
 
 func end_ability() -> void:
-	print('end ability')
 	current_ability = null
 	ability_unit = null
 	doing_ability = false

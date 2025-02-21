@@ -23,6 +23,10 @@ Asg="*res://asg.gd"
 Enemies="*res://enemies.gd"
 Sfx="*res://sfx.gd"
 
+[importer_defaults]
+
+image={}
+
 [input]
 
 click={

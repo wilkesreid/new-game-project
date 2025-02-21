@@ -13,6 +13,7 @@ func gui_input(event : InputEvent, unit : Unit) -> void:
       State.start_ability(self, unit)
 
 func execute(target : Vector2i) -> void:
+  assert(State.ability_unit is Placeable, 'tried to execute ability, but ability_unit is not valid. ability may have been ended before trying to execute')
   State.ability_unit.actions_remaining -= 1
   var unit = State.at(target)
   if unit:
