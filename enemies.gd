@@ -8,16 +8,16 @@ func _init():
       for enemy in enemies:
         enemy.moves = enemy.speed
         await move_algo(enemy)
-    await get_tree().create_timer(0).timeout
+    await instant()
     State.phase = State.PHASE.MOVE
   )
 
 func move_algo(enemy : Enemy):
+  await instant()
   var result = get_closest_unit_path(enemy)
   var path = result[0]
   var target_unit = result[1]
   if path.size() == 0:
-    await get_tree().create_timer(0).timeout
     return
   var move_path_size = path.size() - 1
   var moves_done = 0
@@ -31,21 +31,22 @@ func move_algo(enemy : Enemy):
     moves_done += 1
     # if enemy is in range to use their ability, go ahead and use it
     did_ability = await try_ability(enemy, path, target_unit, moves_done)
-    await get_tree().create_timer(State.game_speed).timeout
+    await tick()
     if did_ability:
       break
 
 func try_ability(enemy : Enemy, path : Array[Vector2i], target_unit : Placeable, moves_done : int) -> bool:
+  await instant()
   if enemy.abilities.size() > 0:
     var ability = enemy.abilities[0]
     if ability.distance >= (path.size() - moves_done):
       State.start_ability(ability, enemy)
-      await get_tree().create_timer(State.game_speed).timeout # show indicators, wait a beat, then execute ability
-      assert(State.ability_unit is Enemy, 'was about to start ability for enemy, but enemy is no longer valid. enemy may have been removed since starting the ability')
-      ability.execute(target_unit.index)
+      assert(State.ability_unit is Enemy, 'just started an ability, but it\'s already ended')
+      await tick() # show indicators, wait a beat, then execute ability
+      assert(State.ability_unit is Enemy, 'was about to start ability for enemy, but ability unit is no longer valid. ability may have been ended')
+      await ability.execute(target_unit.index)
       return true
     else:
-      await get_tree().create_timer(0).timeout
       return false
   else:
     return false
@@ -70,3 +71,12 @@ func remove(enemy : Enemy):
   enemies.erase(enemy)
   if enemies.size() == 0:
     State.phase = State.PHASE.WIN
+
+func wait(time : float):
+  await get_tree().create_timer(time).timeout
+
+func instant():
+  await wait(0)
+
+func tick():
+  await wait(State.game_speed)

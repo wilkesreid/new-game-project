@@ -8,3 +8,7 @@ var index : Vector2i:
 
 func _ready() -> void:
   State.add(index, self)
+
+
+func wait(time : int):
+  await get_tree().create_timer(time).timeout

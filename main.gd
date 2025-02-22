@@ -44,36 +44,36 @@ func _unhandled_input(event : InputEvent):
 		else:
 			# we clicked on a tile
 			var unit = State.at_selected()
-			if !State.is_phase(State.PHASE.MOVE):
+			var path = Asg.get_id_path(State.selected, Coord.mouse_index())
+			if (
+				!State.is_phase(State.PHASE.MOVE)
+				or !unit
+				or unit is not Friendly
+				or (!State.doing_ability and (
+					State.has_at_mouse()
+					or path.size() == 0
+					or path.size() > unit.moves
+				))
+			):
 				select_at_mouse()
-			elif !unit or unit is not Friendly:
-				select_at_mouse()
+				return
+			# we're in the move phase, and we have a unit selected
+			if !State.doing_ability:
+				# we clicked on a tile we can move to
+				State.clear_selection()
+				for tile in path:
+					unit.move_to(tile)
+					await get_tree().create_timer(State.game_speed).timeout
 			else:
-				# we're in the move phase, and we have a unit selected
-				if !State.doing_ability:
-					if State.has_at_mouse():
-						select_at_mouse()
-					else:
-						# we aren't doing an ability, and we clicked on an empty tile
-						var path = Asg.get_id_path(State.selected, Coord.mouse_index())
-						if path.size() == 0 or path.size() > unit.moves:
-							select_at_mouse()
-						else:
-							# we clicked on a tile we can move to
-							State.clear_selection()
-							for tile in path:
-								unit.move_to(tile)
-								await get_tree().create_timer(State.game_speed).timeout
-							State.select_index(unit.index)
+				if State.ability_unit is Enemy:
+					return
+				# we're doing an ability
+				var ability = State.current_ability
+				var p = Asg.get_id_path_ignore_dest(State.selected, Coord.mouse_index())
+				if p.size() > 0 and p.size() <= ability.distance:
+					ability.execute(Coord.mouse_index())
 				else:
-					# we're doing an ability
-					var ability = State.current_ability
-					var path = Asg.get_id_path_ignore_dest(State.selected, Coord.mouse_index())
-					if path.size() > 0 and path.size() <= ability.distance:
-						ability.execute(Coord.mouse_index())
-						State.end_ability()
-					else:
-						State.end_ability()
+					State.end_ability()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed('quit'):

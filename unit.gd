@@ -67,6 +67,7 @@ func move_to(target : Vector2i) -> void:
       old_segment.queue_free()
 
 func take_damage(amount : int) -> void:
+  await wait(0)
   if amount <= 0:
     return
   for i in range(amount):
