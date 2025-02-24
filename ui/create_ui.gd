@@ -9,6 +9,9 @@ func _ready() -> void:
 	)
 
 func create_at_selected(scene_path : String) -> void:
+	if !State.is_selected:
+		return
+	$Audio/Click.play()
 	if State.has_at_selected():
 		State.at_selected().queue_free()
 	var instance = load(scene_path).instantiate()
@@ -16,21 +19,19 @@ func create_at_selected(scene_path : String) -> void:
 	State.units_container.add_child(instance)
 
 func _on_derpy_button_pressed() -> void:
-	if State.is_selected:
-		create_at_selected("res://units/derpy/derpy.tscn")
+	create_at_selected("res://units/derpy/derpy.tscn")
 
 func _on_mimi_button_pressed() -> void:
-	if State.is_selected:
-		create_at_selected("res://units/mimi/mimi.tscn")	
+	create_at_selected("res://units/mimi/mimi.tscn")	
 
 func _on_constellation_button_pressed() -> void:
-	if State.is_selected:
-		create_at_selected("res://units/constellation/constellation.tscn")
+	create_at_selected("res://units/constellation/constellation.tscn")
 
 func _on_knife_button_pressed():
-	if State.is_selected:
-		create_at_selected("res://units/knife/knife.tscn")
-		$Audio/Click.play()
+	create_at_selected("res://units/knife/knife.tscn")
+
+func _on_razor_button_pressed():
+	create_at_selected("res://units/level2/razor/razor.tscn")
 
 func _on_start_button_pressed() -> void:
 	State.phase = State.PHASE.MOVE

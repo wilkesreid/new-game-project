@@ -10,14 +10,21 @@ var navmap : NavigationServer2D
 var last_mouse_index : Vector2i = Vector2i.ZERO
 
 func _ready() -> void:
-	Asg.setup(State.tilemap_layer.get_used_rect())
-	for y in range(Asg.y(), Asg.yend()):
-		for x in range(Asg.x(), Asg.xend()):
-			Asg.set_solid(Vector2i(x, y))
-	for cell in State.tilemap_layer.get_used_cells():
-		if !State.has(cell):
-			Asg.set_not_solid(cell)
-	
+	# generate map
+	Asg.setup()
+	var noise = FastNoiseLite.new()
+	noise.seed = randi()
+	noise.frequency = .1
+	for y in range(Coord.grid_rect.size.y):
+		for x in range(Coord.grid_rect.size.x):
+			var val = noise.get_noise_2d(x, y)
+			if val > -.3:
+				State.tilemap_layer.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+				Asg.set_not_solid(Vector2i(x, y))
+			else:
+				pass
+				Asg.set_solid(Vector2i(x, y))
+
 	State.phase_win.connect(func ():
 		$UILayer/Control/WinPanel.show()
 	)
@@ -64,6 +71,7 @@ func _unhandled_input(event : InputEvent):
 				for tile in path:
 					unit.move_to(tile)
 					await get_tree().create_timer(State.game_speed).timeout
+				State.select_index(unit.index)
 			else:
 				if State.ability_unit is Enemy:
 					return

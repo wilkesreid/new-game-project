@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://cnd703a23gcb8" path="res://sprites/units/constellation.png" id="2_vfjjj"]
 [ext_resource type="Texture2D" uid="uid://bvuxwqkjvmu0m" path="res://sprites/units/mimi.png" id="3_xh43v"]
 [ext_resource type="Texture2D" uid="uid://dcoo3c3c7lyf4" path="res://sprites/units/derpy.png" id="4_y6gau"]
-[ext_resource type="Texture2D" uid="uid://bm616x7t1hejg" path="res://sprites/assets/1/2 Frames/Frame_02.png" id="5_vf02f"]
-[ext_resource type="Texture2D" uid="uid://chaoqejyxpsbx" path="res://sprites/assets/1/2 Frames/Frame_07.png" id="6_8kfsn"]
-[ext_resource type="Texture2D" uid="uid://ik403uvg27en" path="res://sprites/assets/1/1 Icons/2/Skillicon2_15.png" id="6_hhsra"]
+[ext_resource type="Texture2D" uid="uid://bnpualcg44vxb" path="res://sprites/units/knife.png" id="5_8jqd2"]
+[ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="7_oktah"]
+[ext_resource type="Texture2D" uid="uid://c6spqrtd0rsw" path="res://sprites/units/razor.png" id="8_6a3er"]
 [ext_resource type="AudioStream" uid="uid://dtsjkcens08x" path="res://sfx/tick.wav" id="8_yw45a"]
 [ext_resource type="AudioStream" uid="uid://db4rwo2rwb6ck" path="res://sfx/blipSelect2.wav" id="9_5ludl"]
 
@@ -59,21 +59,19 @@ texture_normal = ExtResource("4_y6gau")
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Knife"
 action_mode = 0
-texture_normal = ExtResource("5_vf02f")
-texture_hover = ExtResource("6_8kfsn")
+texture_normal = ExtResource("5_8jqd2")
 stretch_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/KnifeButton"]
+[node name="RazorButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(48, 48)
-layout_mode = 0
-offset_right = 48.0
-offset_bottom = 47.0
-
-[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/KnifeButton/MarginContainer"]
-scale = Vector2(1.4375, 1.46875)
-texture = ExtResource("6_hhsra")
-centered = false
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("8_6a3er")
+stretch_mode = 0
 
 [node name="Button" type="Button" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
@@ -97,4 +95,6 @@ bus = &"sfx"
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/DerpyButton" to="." method="_on_derpy_button_pressed"]
 [connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_knife_button_pressed"]
+[connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/RazorButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/RazorButton" to="." method="_on_razor_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Button" to="." method="_on_start_button_pressed"]

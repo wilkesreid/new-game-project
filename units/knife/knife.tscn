@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxggy1w5oa2ot"]
+[gd_scene load_steps=6 format=3 uid="uid://bxggy1w5oa2ot"]
 
-[ext_resource type="Texture2D" uid="uid://bm616x7t1hejg" path="res://sprites/assets/1/2 Frames/Frame_02.png" id="1_i6vf7"]
 [ext_resource type="Script" path="res://friendly.gd" id="1_tel48"]
 [ext_resource type="PackedScene" uid="uid://ofwyia7c5qeo" path="res://units/knife/knife_body.tscn" id="2_5nkrd"]
-[ext_resource type="Texture2D" uid="uid://ik403uvg27en" path="res://sprites/assets/1/1 Icons/2/Skillicon2_15.png" id="2_xi10o"]
 [ext_resource type="Script" path="res://ability.gd" id="3_l0fsr"]
 [ext_resource type="Resource" uid="uid://dn83tdihxxo68" path="res://abilities/cut.tres" id="4_7p5i3"]
+[ext_resource type="Texture2D" uid="uid://bnpualcg44vxb" path="res://sprites/units/knife.png" id="5_euxbg"]
 
 [node name="Knife" type="Node2D"]
 script = ExtResource("1_tel48")
@@ -14,10 +13,6 @@ speed = 3
 max_size = 3
 abilities = Array[ExtResource("3_l0fsr")]([ExtResource("4_7p5i3")])
 
-[node name="Frame" type="Sprite2D" parent="."]
-texture = ExtResource("1_i6vf7")
-centered = false
-
 [node name="Icon" type="Sprite2D" parent="."]
-texture = ExtResource("2_xi10o")
+texture = ExtResource("5_euxbg")
 centered = false

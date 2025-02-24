@@ -5,9 +5,10 @@ extends Node2D
 
 var grid_size : int = 32
 var grid_cell = Vector2i(grid_size, grid_size)
+var grid_rect = Rect2i(Vector2i(0, 0), Vector2i(24, 16))
 
 func index_to_coord(i : Vector2i) -> Vector2i:
-	return i * grid_size
+	return (i * grid_size) # 1-based instead of 0-based to match tilemap
 
 func coord_to_index(v : Vector2i) -> Vector2i:
 	return floor(Vector2(v.x, v.y) / grid_size)

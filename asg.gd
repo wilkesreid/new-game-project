@@ -2,8 +2,8 @@ extends Node
 
 var grid = AStarGrid2D.new()
 
-func setup(rect : Rect2i) -> void:
-	grid.region = rect
+func setup() -> void:
+	grid.region = Coord.grid_rect
 	grid.cell_size = Coord.grid_cell
 	grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
