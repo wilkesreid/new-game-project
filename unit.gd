@@ -1,6 +1,9 @@
 class_name Unit extends Placeable
 
-@export var body : Resource
+var unit_name : String
+var head_sprite : Resource
+var body_sprite : Resource
+# @export var body : Resource
 @export var speed : int = 1
 @export var max_size : int = 2
 @export var abilities : Array[Ability] = []
@@ -13,14 +16,27 @@ var sfx_move_player : AudioStreamPlayer
 var actions_remaining: int = 1
 var body_queue : Array[Body] = []
 
-func _ready() -> void:
+func _init(idx : Vector2i) -> void:
   moves = speed
   actions_remaining = max_actions
-  State.phase_move.connect(func ():
-    moves = speed
-    actions_remaining = max_actions
-  )
-  super()
+  State.phase_move.connect(on_phase_move)
+  super(idx)
+
+func on_phase_move():
+  moves = speed
+  actions_remaining = max_actions
+
+func _draw():
+  draw_texture_rect(head_sprite, Rect2i(Vector2i(0, 0), Coord.grid_cell), false, Color(1, 1, 1, 1))
+
+func set_stats(data):
+  name = data['name'] # Built-in Godot names can't conflict
+  unit_name = data['name']
+  head_sprite = data['head_sprite']
+  body_sprite = data['body_sprite']
+  speed = data['speed']
+  max_size = data['max_size']
+  abilities.assign(data['abilities'])
 
 func inc_speed() -> void:
   speed += 1
@@ -54,9 +70,10 @@ func move_to(target : Vector2i) -> void:
   dec_moves()
   Sfx.play('Move')
   if max_size > 1:
-    var new_segment = body.instantiate()
-    new_segment.index = from
-    new_segment.parent = self
+    # var new_segment = body.instantiate()
+    var new_segment = Body.new(from, self)
+    # new_segment.index = from
+    # new_segment.parent = self
     State.add(from, new_segment)
     push_body_queue(new_segment)
     if !is_max_size():

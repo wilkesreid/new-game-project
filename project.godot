@@ -22,6 +22,7 @@ Coord="*res://coord.gd"
 Asg="*res://asg.gd"
 Enemies="*res://enemies.gd"
 Sfx="*res://sfx.gd"
+Friendlies="*res://friendlies.gd"
 
 [importer_defaults]
 

@@ -6,9 +6,13 @@ var index : Vector2i:
   set(value):
     position = Coord.index_to_coord(value)
 
-func _ready() -> void:
-  State.add(index, self)
+func _init(idx) -> void:
+  index = idx
+  print('adding', self, 'at', idx)
+  State.add(idx, self)
 
+func _ready():
+  print('placeable ready', self)
 
 func wait(time : int):
   await get_tree().create_timer(time).timeout

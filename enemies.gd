@@ -1,11 +1,41 @@
 extends Node
 
-var enemies : Array[Unit] = []
+var enemies = {
+  'corrupted_eye': {
+    'name': 'Corrupted Eye',
+    'head_sprite': preload('res://sprites/enemies/corrupted_eye.png'),
+    'body_sprite': preload('res://sprites/enemies/corrupted_eye_body.png'),
+    'speed': 2,
+    'max_size': 3,
+    'abilities': [
+      Ability.new({
+        'name': 'Shoot',
+        'distance': 2,
+        'damage': 1
+      })
+    ]
+  },
+  'monstieur': {
+    'name': 'Monstieur',
+    'head_sprite': preload('res://sprites/enemies/monstieur.png'),
+    'body_sprite': preload('res://sprites/enemies/monstieur_body.png'),
+    'speed': 3,
+    'max_size': 3,
+    'abilities': [
+      Ability.new({
+        'name': 'Attack',
+        'distance': 1,
+        'damage': 2
+      })
+    ]
+  }
+}
+var active_enemies : Array[Unit] = []
 
 func _init():
   State.phase_enemy.connect(func ():
-    if enemies.size() > 0:
-      for enemy in enemies:
+    if active_enemies.size() > 0:
+      for enemy in active_enemies:
         enemy.moves = enemy.speed
         await move_algo(enemy)
     await instant()
@@ -68,8 +98,8 @@ func get_closest_unit_path(enemy : Enemy):
   return [smallest_path, closest_unit]
 
 func remove(enemy : Enemy):
-  enemies.erase(enemy)
-  if enemies.size() == 0:
+  active_enemies.erase(enemy)
+  if active_enemies.size() == 0:
     State.phase = State.PHASE.WIN
 
 func wait(time : float):

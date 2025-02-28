@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var target_texture = preload("res://sprites/target.png")
+var store_scene = preload("res://store.tscn")
 
 var time : float
 var alpha : float = 0
@@ -25,9 +26,25 @@ func _ready() -> void:
 				pass
 				Asg.set_solid(Vector2i(x, y))
 
-	State.phase_win.connect(func ():
-		$UILayer/Control/WinPanel.show()
-	)
+	# generate enemy units in top-left quadrant
+	var center = Coord.grid_rect.get_center()
+	var enemies_to_create = 2
+	for i in range(enemies_to_create):
+		var x = -1
+		var y = -1
+		while State.tilemap_layer.get_cell_tile_data(Vector2i(x, y)) == null:
+			x = randi() % center.x
+			y = randi() % center.y
+		var enemy_stats = Enemies.enemies.values()[randi() % Enemies.enemies.size()]
+		Enemy.create(Vector2i(x, y), enemy_stats)
+
+	State.phase_win.connect(on_win)
+
+func on_win():
+	$UILayer/Control/WinPanel.show()
+	await get_tree().create_timer(2).timeout
+	get_tree().root.add_child(store_scene)
+
 
 func select_at_mouse():
 	if State.has_at_mouse():

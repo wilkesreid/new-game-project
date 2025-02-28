@@ -6,6 +6,11 @@ class_name Ability
 @export var damage : int = 1
 @export var needs_eyeline : bool = false
 
+func _init(data : Dictionary) -> void:
+  name = data['name']
+  distance = data['distance']
+  damage = data['damage']
+
 func gui_input(event : InputEvent, unit : Unit) -> void:
   if event.is_action_pressed('click'):
     if unit.actions_remaining > 0:

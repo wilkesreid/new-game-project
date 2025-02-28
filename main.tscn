@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://r8aamwenkniq"]
+[gd_scene load_steps=16 format=3 uid="uid://r8aamwenkniq"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_6xwgr"]
 [ext_resource type="Texture2D" uid="uid://cbtaopl0tp0p0" path="res://sprites/tile.png" id="2_72d4w"]
@@ -6,19 +6,13 @@
 [ext_resource type="Script" path="res://tile_map_layer.gd" id="3_j7jyc"]
 [ext_resource type="PackedScene" uid="uid://dbkcerqtkko2v" path="res://ui/create_ui.tscn" id="4_a7hnr"]
 [ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="5_oosrw"]
-[ext_resource type="AudioStream" uid="uid://ca4ly1bfjwr27" path="res://sfx/hitHurt.wav" id="6_hjdxu"]
 [ext_resource type="PackedScene" uid="uid://crknpiu4ckqfb" path="res://ui/in_game_ui.tscn" id="6_x7rko"]
 [ext_resource type="Script" path="res://units_container.gd" id="8_de6x8"]
-[ext_resource type="Script" path="res://audio.gd" id="8_rkudn"]
-[ext_resource type="AudioStream" uid="uid://dtsjkcens08x" path="res://sfx/tick.wav" id="10_1ocbm"]
-[ext_resource type="AudioStream" uid="uid://cm240fku0e5kb" path="res://sfx/move.wav" id="10_3csy4"]
-[ext_resource type="AudioStream" uid="uid://b0j5fa4qi6mxt" path="res://sfx/blipSelect.wav" id="10_lqdhp"]
 [ext_resource type="Material" uid="uid://dqyedh0mg6v2i" path="res://shaders/target/target.tres" id="11_2ybwx"]
 [ext_resource type="Script" path="res://targets.gd" id="12_plxrc"]
 [ext_resource type="Material" uid="uid://baicbgwf7ti74" path="res://shaders/selector/selector.tres" id="13_pvoyb"]
 [ext_resource type="Script" path="res://selected.gd" id="13_qou4k"]
-[ext_resource type="AudioStream" uid="uid://c015absggb1sq" path="res://sfx/death.wav" id="17_6hkv3"]
-[ext_resource type="AudioStream" uid="uid://db4rwo2rwb6ck" path="res://sfx/blipSelect2.wav" id="18_tfnad"]
+[ext_resource type="PackedScene" uid="uid://bkraclqxeq1el" path="res://audio.tscn" id="13_rxkvl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aa8il"]
 texture = ExtResource("2_72d4w")
@@ -115,35 +109,4 @@ texture_filter = 2
 material = ExtResource("13_pvoyb")
 script = ExtResource("13_qou4k")
 
-[node name="Audio" type="Node" parent="."]
-script = ExtResource("8_rkudn")
-
-[node name="Select" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_lqdhp")
-pitch_scale = 1.37
-bus = &"sfx"
-
-[node name="SelectUnit" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_lqdhp")
-pitch_scale = 2.0
-bus = &"sfx"
-
-[node name="Tick" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_1ocbm")
-bus = &"sfx"
-
-[node name="Move" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_3csy4")
-bus = &"sfx"
-
-[node name="Damage" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("6_hjdxu")
-bus = &"sfx"
-
-[node name="Death" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("17_6hkv3")
-bus = &"sfx"
-
-[node name="Click" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("18_tfnad")
-bus = &"sfx"
+[node name="Audio" parent="." instance=ExtResource("13_rxkvl")]

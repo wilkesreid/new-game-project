@@ -150,6 +150,6 @@ func can_goto_phase(p: PHASE) -> bool:
 			# can't go to enemy's turn if we haven't moved all our units
 			return true # TODO: return false if we haven't finished our turn
 		PHASE.WIN:
-			return Enemies.enemies.size() == 0
+			return Enemies.active_enemies.size() == 0
 		_:
 			return false
