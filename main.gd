@@ -43,7 +43,7 @@ func _ready() -> void:
 func on_win():
 	$UILayer/Control/WinPanel.show()
 	await get_tree().create_timer(2).timeout
-	get_tree().root.add_child(store_scene)
+	# get_tree().root.add_child(store_scene) # doesn't work
 
 
 func select_at_mouse():

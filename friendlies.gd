@@ -63,7 +63,7 @@ var friendlies = {
   },
   'Pulse': {
     'name': 'Pulse',
-    'head_sprite': preload('res://sprites/assets/1/Icons/3/Skillicon3_15.png'),
+    'head_sprite': preload('res://sprites/assets/kenney_puzzle-pack-2/PNG/Tiles blue/tileBlue_12.png'),
     'body_sprite': preload('res://sprites/assets/1/Frames/Frame_01.png'),
     'speed': 2,
     'max_size': 5,

@@ -14,7 +14,8 @@ void fragment() {
 	if (tex_color.a > 0.0) {
 		a = 1.0;
 	}
-	COLOR = vec4(1.0 - screen_color.rgb, a);
+	// COLOR = vec4(1.0 - screen_color.rgb, a);
+	COLOR = vec4(1, 1, 1, tex_color.a);
 }
 
 //void light() {

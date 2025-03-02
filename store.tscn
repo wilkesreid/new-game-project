@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmu8ygyuk3pdk"]
+[gd_scene load_steps=7 format=3 uid="uid://bmu8ygyuk3pdk"]
 
+[ext_resource type="Script" path="res://store/store.gd" id="1_4wtd5"]
 [ext_resource type="Script" path="res://store/unit_list.gd" id="1_jmemc"]
 [ext_resource type="PackedScene" uid="uid://bkraclqxeq1el" path="res://audio.tscn" id="2_3gjlu"]
+[ext_resource type="Script" path="res://store/selected_panel_container.gd" id="3_265yn"]
+[ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="4_6j337"]
+[ext_resource type="Texture2D" uid="uid://bb5p47cqbjkyv" path="res://sprites/assets/kenney_puzzle-pack-2/PNG/Tiles black/tileBlack_01.png" id="4_us8wb"]
 
 [node name="Store" type="Node2D"]
+script = ExtResource("1_4wtd5")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -35,64 +40,116 @@ custom_minimum_size = Vector2(900, 500)
 layout_mode = 2
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer"]
+[node name="LeftMarginContainer" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Store"
 
-[node name="HSeparator" type="HSeparator" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TabContainer" type="TabContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="UnitList" type="TabContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 script = ExtResource("1_jmemc")
 
-[node name="Level 1" type="ItemList" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer"]
+[node name="Level 1" type="ItemList" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer/UnitList"]
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 0
 
-[node name="Level 2" type="ItemList" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer"]
+[node name="Level 2" type="ItemList" parent="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer/UnitList"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer"]
+[node name="RightMarginContainer" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer2"]
+[node name="SelectedPanelContainer" type="PanelContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+script = ExtResource("3_265yn")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Unit Name"
+
+[node name="HSeparator" type="HSeparator" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("4_us8wb")
+
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme = ExtResource("4_6j337")
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="SpeedLabel" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Speed" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "X"
+
+[node name="MaxSizeLabel" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Max Size"
+
+[node name="MaxSize" type="Label" parent="Control/MarginContainer/CenterContainer/HBoxContainer/RightMarginContainer/SelectedPanelContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "X"
 
 [node name="Button" type="Button" parent="Control/MarginContainer"]
 layout_mode = 2
@@ -103,4 +160,5 @@ text = "Continue"
 
 [node name="Audio" parent="." instance=ExtResource("2_3gjlu")]
 
-[connection signal="tab_changed" from="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer" to="Control/MarginContainer/CenterContainer/HBoxContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer" method="_on_tab_changed"]
+[connection signal="select" from="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer/UnitList" to="." method="on_unit_select"]
+[connection signal="tab_changed" from="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer/UnitList" to="Control/MarginContainer/CenterContainer/HBoxContainer/LeftMarginContainer/PanelContainer/MarginContainer/VBoxContainer/UnitList" method="_on_tab_changed"]
