@@ -19,7 +19,7 @@ var body_queue : Array[Body] = []
 func _init(idx : Vector2i) -> void:
   moves = speed
   actions_remaining = max_actions
-  State.phase_move.connect(on_phase_move)
+  Phase.on_move.connect(on_phase_move)
   super(idx)
 
 func on_phase_move():

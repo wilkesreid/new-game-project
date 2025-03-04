@@ -4,12 +4,12 @@ var bottom_bar : Control
 
 func _ready() -> void:
   bottom_bar = $BottomBar
-  State.phase_any.connect(func (new_phase : State.PHASE):
-    if new_phase == State.PHASE.MOVE:
+  Phase.on_any.connect(func (new_phase):
+    if new_phase == Phase.MOVE:
       bottom_bar.show()
     else:
       bottom_bar.hide()
   )
 
 func _on_end_turn_button_pressed() -> void:
-  State.phase = State.PHASE.ENEMY
+  Phase.phase = Phase.ENEMY

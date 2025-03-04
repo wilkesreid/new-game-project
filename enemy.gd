@@ -7,7 +7,7 @@ static func create(idx : Vector2i, data : Dictionary) -> Enemy:
 
 func _init(idx : Vector2i):
   Enemies.active_enemies.append(self)
-  State.phase_enemy.connect(on_phase_enemy)
+  Phase.on_enemy.connect(on_phase_enemy)
   super(idx)
 
 func on_phase_enemy():

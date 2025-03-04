@@ -1,5 +1,18 @@
 extends Node
 
+signal debug_changed
+var _debug : bool = false
+var DEBUG : bool:
+	get:
+		return _debug
+	set(value):
+		_debug = value
+		debug_changed.emit(value)
+		if value:
+			print('DEBUG ON')
+		else:
+			print('DEBUG OFF')
+
 var game_speed : float = .25
 
 # tile selection

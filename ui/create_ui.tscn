@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dbkcerqtkko2v"]
 
-[ext_resource type="Script" path="res://ui/create_ui.gd" id="1_llmcw"]
+[ext_resource type="Script" uid="uid://kmp0wir1gu06" path="res://ui/create_ui.gd" id="1_llmcw"]
 [ext_resource type="Texture2D" uid="uid://dewqt005pt1c1" path="res://sprites/assets/1/Frames/Frame_01.png" id="2_mgcur"]
 [ext_resource type="Texture2D" uid="uid://bwvuttrvwqino" path="res://sprites/assets/1/Frames/Frame_09.png" id="3_lsivs"]
 [ext_resource type="Texture2D" uid="uid://bvdxvndmlcowu" path="res://sprites/assets/1/Icons/1/Skillicon1_15.png" id="3_xprcf"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://db4rwo2rwb6ck" path="res://sfx/blipSelect2.wav" id="9_5ludl"]
 
 [node name="create_ui" type="Control"]
+texture_filter = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,10 +74,11 @@ scale = Vector2(2, 2)
 texture = ExtResource("5_bn7ic")
 centered = false
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer"]
+[node name="StartButton" type="Button" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+theme = ExtResource("7_oktah")
 text = "Start"
 
 [node name="Audio" type="Node" parent="."]
@@ -93,4 +95,4 @@ bus = &"sfx"
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_knife_button_pressed"]
 [connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/RazorButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/RazorButton" to="." method="_on_razor_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/StartButton" to="." method="_on_start_button_pressed"]

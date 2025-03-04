@@ -33,13 +33,12 @@ var enemies = {
 var active_enemies : Array[Unit] = []
 
 func _init():
-  State.phase_enemy.connect(func ():
+  Phase.on_enemy.connect(func ():
     if active_enemies.size() > 0:
       for enemy in active_enemies:
         enemy.moves = enemy.speed
         await move_algo(enemy)
-    await instant()
-    State.phase = State.PHASE.MOVE
+    Phase.phase = Phase.MOVE
   )
 
 func move_algo(enemy : Enemy):
@@ -100,7 +99,7 @@ func get_closest_unit_path(enemy : Enemy):
 func remove(enemy : Enemy):
   active_enemies.erase(enemy)
   if active_enemies.size() == 0:
-    State.phase = State.PHASE.WIN
+    Phase.phase = Phase.WIN
 
 func wait(time : float):
   await get_tree().create_timer(time).timeout

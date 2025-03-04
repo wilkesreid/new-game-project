@@ -3,8 +3,8 @@ extends Control
 enum UNIT { CONSTELLATION, MIMI, DERPY }
 
 func _ready() -> void:
-	State.phase_any.connect(func (new_phase : State.PHASE):
-		if new_phase != State.PHASE.PLACE:
+	Phase.on_any.connect(func (new_phase):
+		if new_phase != Phase.PLACE:
 			queue_free()
 	)
 
@@ -24,7 +24,7 @@ func _on_razor_button_pressed():
 	create_at_selected('Razor')
 
 func _on_start_button_pressed() -> void:
-	State.phase = State.PHASE.MOVE
+	Phase.phase = Phase.MOVE
 	State.retrigger_select()
 
 func _on_button_mouse_entered():

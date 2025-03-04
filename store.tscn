@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bmu8ygyuk3pdk"]
 
-[ext_resource type="Script" path="res://store/store.gd" id="1_4wtd5"]
-[ext_resource type="Script" path="res://store/unit_list.gd" id="1_jmemc"]
+[ext_resource type="Script" uid="uid://bkhvi5ss2p7jm" path="res://store/store.gd" id="1_4wtd5"]
+[ext_resource type="Script" uid="uid://70kydbx2gr0y" path="res://store/unit_list.gd" id="1_jmemc"]
 [ext_resource type="PackedScene" uid="uid://bkraclqxeq1el" path="res://audio.tscn" id="2_3gjlu"]
-[ext_resource type="Script" path="res://store/selected_panel_container.gd" id="3_265yn"]
+[ext_resource type="Script" uid="uid://daxffuxn5thp4" path="res://store/selected_panel_container.gd" id="3_265yn"]
 [ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="4_6j337"]
 [ext_resource type="Texture2D" uid="uid://bb5p47cqbjkyv" path="res://sprites/assets/kenney_puzzle-pack-2/PNG/Tiles black/tileBlack_01.png" id="4_us8wb"]
 

@@ -1,15 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmoked0g1n7qh"]
+[gd_scene load_steps=5 format=3 uid="uid://bmoked0g1n7qh"]
 
 [ext_resource type="Texture2D" uid="uid://bdmxjhgeo4yen" path="res://sprites/enemies/face.png" id="1_2irdu"]
 [ext_resource type="PackedScene" uid="uid://db0tuy4jucnmv" path="res://enemies/face/face_body.tscn" id="2_q57kd"]
-[ext_resource type="Script" path="res://enemy.gd" id="2_wabj7"]
-[ext_resource type="Script" path="res://ability.gd" id="3_4u7w6"]
-[ext_resource type="Resource" uid="uid://dlvarkplypaay" path="res://abilities/attack.tres" id="4_2qv07"]
+[ext_resource type="Script" uid="uid://baei1lb15i2vp" path="res://enemy.gd" id="2_wabj7"]
+[ext_resource type="Script" uid="uid://cmmncyph2ncnr" path="res://ability.gd" id="3_4u7w6"]
 
 [node name="Face" type="Node2D"]
 script = ExtResource("2_wabj7")
 body = ExtResource("2_q57kd")
-abilities = Array[ExtResource("3_4u7w6")]([ExtResource("4_2qv07")])
+abilities = Array[ExtResource("3_4u7w6")]([])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_2irdu")

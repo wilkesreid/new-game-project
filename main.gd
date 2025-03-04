@@ -38,13 +38,13 @@ func _ready() -> void:
 		var enemy_stats = Enemies.enemies.values()[randi() % Enemies.enemies.size()]
 		Enemy.create(Vector2i(x, y), enemy_stats)
 
-	State.phase_win.connect(on_win)
+	Phase.on_win.connect(on_win)
 
 func on_win():
 	$UILayer/Control/WinPanel.show()
 	await get_tree().create_timer(2).timeout
 	# get_tree().root.add_child(store_scene) # doesn't work
-
+	get_tree().change_scene_to_packed(store_scene)
 
 func select_at_mouse():
 	if State.has_at_mouse():
@@ -70,7 +70,7 @@ func _unhandled_input(event : InputEvent):
 			var unit = State.at_selected()
 			var path = Asg.get_id_path(State.selected, Coord.mouse_index())
 			if (
-				!State.is_phase(State.PHASE.MOVE)
+				!Phase.is_phase(Phase.MOVE)
 				or !unit
 				or unit is not Friendly
 				or (!State.doing_ability and (
@@ -129,7 +129,7 @@ func _draw() -> void:
 			var speed = unit.speed
 			var moves = unit.moves
 
-			if State.is_phase(State.PHASE.MOVE):
+			if Phase.is_phase(Phase.MOVE):
 				if !State.doing_ability:
 					# draw red path from unit to mouse
 					if (
@@ -157,3 +157,7 @@ func is_mouse_on_tile() -> bool:
 
 func is_mouse_in_grid() -> bool:
 	return State.tilemap_layer.get_used_rect().has_point(Coord.mouse_index())
+
+
+func _on_debug_check_box_toggled(on : bool) -> void:
+	State.DEBUG = on

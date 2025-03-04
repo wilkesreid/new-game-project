@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://rnikloryco53"]
 
-[ext_resource type="Script" path="res://ui/ability_ui.gd" id="1_baymu"]
+[ext_resource type="Script" uid="uid://tefkyppta5lo" path="res://ui/ability_ui.gd" id="1_baymu"]
 [ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="1_ivkhw"]
 
 [node name="AbilityUi" type="Control"]

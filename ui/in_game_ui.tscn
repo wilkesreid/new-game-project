@@ -1,8 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://crknpiu4ckqfb"]
+[gd_scene load_steps=5 format=3 uid="uid://crknpiu4ckqfb"]
 
-[ext_resource type="Script" path="res://ui/in_game_ui.gd" id="1_af48y"]
+[ext_resource type="Script" uid="uid://odtvc0ticv0" path="res://ui/in_game_ui.gd" id="1_af48y"]
 [ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="1_h8lov"]
 [ext_resource type="PackedScene" uid="uid://rnikloryco53" path="res://ui/ability_ui.tscn" id="2_nb7f3"]
+
+[sub_resource type="GDScript" id="GDScript_pwieu"]
+script/source = "extends Button
+
+
+
+func _on_pressed() -> void:
+	Phase.phase = Phase.WIN
+"
 
 [node name="InGameUi" type="Control"]
 layout_mode = 3
@@ -35,9 +44,18 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Button" type="Button" parent="BottomBar/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomBar/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
+alignment = 2
+
+[node name="EndTurnButton" type="Button" parent="BottomBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 text = "End Turn"
 
-[connection signal="pressed" from="BottomBar/MarginContainer/Button" to="." method="_on_end_turn_button_pressed"]
+[node name="DebugWinButton" type="Button" parent="BottomBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+script = SubResource("GDScript_pwieu")
+
+[connection signal="pressed" from="BottomBar/MarginContainer/HBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="BottomBar/MarginContainer/HBoxContainer/DebugWinButton" to="BottomBar/MarginContainer/HBoxContainer/DebugWinButton" method="_on_pressed"]

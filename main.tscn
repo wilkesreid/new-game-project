@@ -1,17 +1,17 @@
 [gd_scene load_steps=16 format=3 uid="uid://r8aamwenkniq"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_6xwgr"]
+[ext_resource type="Script" uid="uid://b60p3ti2caagh" path="res://main.gd" id="1_6xwgr"]
 [ext_resource type="Texture2D" uid="uid://cbtaopl0tp0p0" path="res://sprites/tile.png" id="2_72d4w"]
-[ext_resource type="Script" path="res://camera.gd" id="2_fae1d"]
-[ext_resource type="Script" path="res://tile_map_layer.gd" id="3_j7jyc"]
+[ext_resource type="Script" uid="uid://dxmuj1mcfbf7d" path="res://camera.gd" id="2_fae1d"]
+[ext_resource type="Script" uid="uid://f0akf5n4dk1t" path="res://tile_map_layer.gd" id="3_j7jyc"]
 [ext_resource type="PackedScene" uid="uid://dbkcerqtkko2v" path="res://ui/create_ui.tscn" id="4_a7hnr"]
 [ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="5_oosrw"]
 [ext_resource type="PackedScene" uid="uid://crknpiu4ckqfb" path="res://ui/in_game_ui.tscn" id="6_x7rko"]
-[ext_resource type="Script" path="res://units_container.gd" id="8_de6x8"]
+[ext_resource type="Script" uid="uid://dmqfpm5ux4k1a" path="res://units_container.gd" id="8_de6x8"]
 [ext_resource type="Material" uid="uid://dqyedh0mg6v2i" path="res://shaders/target/target.tres" id="11_2ybwx"]
-[ext_resource type="Script" path="res://targets.gd" id="12_plxrc"]
+[ext_resource type="Script" uid="uid://mvrc524n0vpi" path="res://targets.gd" id="12_plxrc"]
 [ext_resource type="Material" uid="uid://baicbgwf7ti74" path="res://shaders/selector/selector.tres" id="13_pvoyb"]
-[ext_resource type="Script" path="res://selected.gd" id="13_qou4k"]
+[ext_resource type="Script" uid="uid://b15pit7mmtc23" path="res://selected.gd" id="13_qou4k"]
 [ext_resource type="PackedScene" uid="uid://bkraclqxeq1el" path="res://audio.tscn" id="13_rxkvl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aa8il"]
@@ -30,6 +30,7 @@ script = ExtResource("1_6xwgr")
 layer = 10
 
 [node name="Control" type="Control" parent="UILayer"]
+texture_filter = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,6 +78,16 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "You Win!"
 
+[node name="CheckBox" type="CheckBox" parent="UILayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_bottom = 24.0
+grow_horizontal = 0
+text = "Debug"
+
 [node name="GameLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
@@ -110,3 +121,5 @@ material = ExtResource("13_pvoyb")
 script = ExtResource("13_qou4k")
 
 [node name="Audio" parent="." instance=ExtResource("13_rxkvl")]
+
+[connection signal="toggled" from="UILayer/Control/CheckBox" to="." method="_on_debug_check_box_toggled"]

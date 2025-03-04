@@ -1,17 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://iwp8c5t1klfw"]
+[gd_scene load_steps=5 format=3 uid="uid://iwp8c5t1klfw"]
 
 [ext_resource type="Texture2D" uid="uid://chancp544b01s" path="res://sprites/enemies/corrupted_eye.png" id="1_04fii"]
-[ext_resource type="Script" path="res://enemy.gd" id="1_u6qil"]
+[ext_resource type="Script" uid="uid://baei1lb15i2vp" path="res://enemy.gd" id="1_u6qil"]
 [ext_resource type="PackedScene" uid="uid://dfurr2xc4rr83" path="res://enemies/corrupted_eye/corrupted_eye_body.tscn" id="2_ihs1p"]
-[ext_resource type="Script" path="res://ability.gd" id="3_pmm7m"]
-[ext_resource type="Resource" uid="uid://cwthqf3qveaun" path="res://abilities/shoot.tres" id="4_cfg4g"]
+[ext_resource type="Script" uid="uid://cmmncyph2ncnr" path="res://ability.gd" id="3_pmm7m"]
 
 [node name="CorruptedEye" type="Node2D"]
 script = ExtResource("1_u6qil")
 body = ExtResource("2_ihs1p")
 speed = 2
 max_size = 3
-abilities = Array[ExtResource("3_pmm7m")]([ExtResource("4_cfg4g")])
+abilities = Array[ExtResource("3_pmm7m")]([])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_04fii")
