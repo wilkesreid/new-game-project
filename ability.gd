@@ -2,12 +2,15 @@ extends Resource
 class_name Ability
 
 @export var name : String
+@export var description : String
 @export var distance : int = 1
 @export var damage : int = 1
 @export var needs_eyeline : bool = false
 
 func _init(data : Dictionary) -> void:
   name = data['name']
+  if data.has('description'):
+    description = data['description']
   distance = data['distance']
   damage = data['damage']
 

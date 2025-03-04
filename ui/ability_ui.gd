@@ -50,6 +50,20 @@ func _select(index : Vector2i):
         ability_name_label.text = ability.name
         vflow.add_child(ability_name_label)
 
+      # Description
+      if ability.description:
+        var ability_description_margin_container = MarginContainer.new()
+        ability_description_margin_container.add_theme_constant_override("margin_top", 8)
+        ability_description_margin_container.add_theme_constant_override("margin_bottom", 8)
+        
+        var ability_description_label = Label.new()
+        ability_description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+        ability_description_label.custom_minimum_size = Vector2(128, 0)
+        ability_description_label.text = ability.description
+        ability_description_margin_container.add_child(ability_description_label)
+
+        vflow.add_child(ability_description_margin_container)
+
       # Range
       var ability_range_label = Label.new()
       ability_range_label.text = 'Range: ' + str(ability.distance)

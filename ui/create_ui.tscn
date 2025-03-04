@@ -1,13 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbkcerqtkko2v"]
+[gd_scene load_steps=14 format=3 uid="uid://dbkcerqtkko2v"]
 
 [ext_resource type="Script" uid="uid://kmp0wir1gu06" path="res://ui/create_ui.gd" id="1_llmcw"]
-[ext_resource type="Texture2D" uid="uid://dewqt005pt1c1" path="res://sprites/assets/1/Frames/Frame_01.png" id="2_mgcur"]
-[ext_resource type="Texture2D" uid="uid://bwvuttrvwqino" path="res://sprites/assets/1/Frames/Frame_09.png" id="3_lsivs"]
-[ext_resource type="Texture2D" uid="uid://bvdxvndmlcowu" path="res://sprites/assets/1/Icons/1/Skillicon1_15.png" id="3_xprcf"]
-[ext_resource type="Texture2D" uid="uid://c60u28owjvgff" path="res://sprites/assets/1/Icons/4/Skillicon4_15.png" id="5_bn7ic"]
+[ext_resource type="Texture2D" uid="uid://ccb5pb3u7mj31" path="res://contributions/knife.tres" id="2_67xqj"]
+[ext_resource type="Script" uid="uid://b53850754m7d5" path="res://ui/create_btn.gd" id="4_4yueb"]
+[ext_resource type="Texture2D" uid="uid://bh7rwkkjigcwx" path="res://contributions/pistol.tres" id="4_ycxgh"]
+[ext_resource type="Texture2D" uid="uid://cgr5dutcydbwa" path="res://contributions/healer.tres" id="5_4yueb"]
+[ext_resource type="Texture2D" uid="uid://difoqq3q1in1" path="res://contributions/razor.tres" id="5_wfb7p"]
 [ext_resource type="Theme" uid="uid://cxq6npo4tlygl" path="res://ui/theme.tres" id="7_oktah"]
-[ext_resource type="AudioStream" uid="uid://dtsjkcens08x" path="res://sfx/tick.wav" id="8_yw45a"]
-[ext_resource type="AudioStream" uid="uid://db4rwo2rwb6ck" path="res://sfx/blipSelect2.wav" id="9_5ludl"]
+[ext_resource type="Texture2D" uid="uid://f4vlf1igswio" path="res://contributions/pulse.tres" id="8_4yueb"]
+[ext_resource type="Texture2D" uid="uid://bu0rkglbocxaf" path="res://contributions/bolt.tres" id="9_67xqj"]
+[ext_resource type="Texture2D" uid="uid://b337mm11so2x3" path="res://contributions/anchor.tres" id="10_emyg8"]
+[ext_resource type="Texture2D" uid="uid://drka16g8uockl" path="res://contributions/venom.tres" id="11_82prw"]
+[ext_resource type="Texture2D" uid="uid://cp26825q0s8g3" path="res://contributions/wraith.tres" id="12_iqsst"]
+[ext_resource type="Texture2D" uid="uid://begjvsbwbeyc5" path="res://contributions/leech.tres" id="13_pckmy"]
 
 [node name="create_ui" type="Control"]
 texture_filter = 2
@@ -38,41 +43,136 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 4
 
 [node name="KnifeButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
+texture_filter = 1
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 size_flags_vertical = 4
 tooltip_text = "Knife"
 action_mode = 0
-texture_normal = ExtResource("2_mgcur")
-texture_hover = ExtResource("3_lsivs")
+texture_normal = ExtResource("2_67xqj")
 ignore_texture_size = true
 stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Knife"
 
-[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/KnifeButton"]
-scale = Vector2(2, 2)
-texture = ExtResource("3_xprcf")
-centered = false
-region_rect = Rect2(0, 0, 64, 64)
+[node name="PistolButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Knife"
+action_mode = 0
+texture_normal = ExtResource("4_ycxgh")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Pistol"
+
+[node name="HealerButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Knife"
+action_mode = 0
+texture_normal = ExtResource("5_4yueb")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Healer"
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="RazorButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 size_flags_vertical = 4
 tooltip_text = "Razor"
 theme = ExtResource("7_oktah")
-texture_normal = ExtResource("2_mgcur")
-texture_hover = ExtResource("3_lsivs")
+texture_normal = ExtResource("5_wfb7p")
 ignore_texture_size = true
 stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Razor"
 
-[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/RazorButton"]
-scale = Vector2(2, 2)
-texture = ExtResource("5_bn7ic")
-centered = false
+[node name="PulseButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("8_4yueb")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Pulse"
+
+[node name="BoltButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("9_67xqj")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Bolt"
+
+[node name="AnchorButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("10_emyg8")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Anchor"
+
+[node name="VenomButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("11_82prw")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Venom"
+
+[node name="WraithButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("12_iqsst")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Wraith"
+
+[node name="LeechButton" type="TextureButton" parent="PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Razor"
+theme = ExtResource("7_oktah")
+texture_normal = ExtResource("13_pckmy")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_4yueb")
+unit_key = "Leech"
 
 [node name="StartButton" type="Button" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
@@ -81,18 +181,4 @@ size_flags_vertical = 4
 theme = ExtResource("7_oktah")
 text = "Start"
 
-[node name="Audio" type="Node" parent="."]
-
-[node name="Hover" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("8_yw45a")
-bus = &"sfx"
-
-[node name="Click" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("9_5ludl")
-bus = &"sfx"
-
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_button_mouse_entered"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/KnifeButton" to="." method="_on_knife_button_pressed"]
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/HBoxContainer/RazorButton" to="." method="_on_button_mouse_entered"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/RazorButton" to="." method="_on_razor_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/StartButton" to="." method="_on_start_button_pressed"]
