@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bkraclqxeq1el"]
+[gd_scene load_steps=11 format=3 uid="uid://bkraclqxeq1el"]
 
 [ext_resource type="Script" uid="uid://bhsjjqqimubjr" path="res://audio.gd" id="1_kc480"]
 [ext_resource type="AudioStream" uid="uid://b0j5fa4qi6mxt" path="res://sfx/blipSelect.wav" id="2_6225a"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://db4rwo2rwb6ck" path="res://sfx/blipSelect2.wav" id="7_of87y"]
 [ext_resource type="AudioStream" uid="uid://mktsqh0nwxta" path="res://sfx/heal.wav" id="8_0svpk"]
 [ext_resource type="AudioStream" uid="uid://4sao56r4e5pq" path="res://sfx/boost.wav" id="9_5olcg"]
+[ext_resource type="AudioStream" uid="uid://01jw76ls2mdd" path="res://sfx/boost2.wav" id="10_pgqns"]
 
 [node name="Audio" type="Node"]
 script = ExtResource("1_kc480")
@@ -53,4 +54,8 @@ bus = &"sfx"
 
 [node name="Boost" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_5olcg")
+bus = &"sfx"
+
+[node name="Boost2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_pgqns")
 bus = &"sfx"

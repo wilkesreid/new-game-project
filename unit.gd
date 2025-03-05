@@ -22,6 +22,7 @@ func _init(idx : Vector2i) -> void:
   moves = speed
   actions_remaining = max_actions
   Phase.on_move.connect(on_phase_move)
+
   super(idx)
 
 func on_phase_move():
