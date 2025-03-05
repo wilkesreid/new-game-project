@@ -13,7 +13,7 @@ var friendlies = {
         'description': 'Deal 2 damage',
         'distance': 1,
         'damage': 2,
-        'do': func(target : Unit):
+        'do': func(target: Unit):
   target.take_damage(2)
       })
     ]
@@ -30,7 +30,7 @@ var friendlies = {
         'description': 'Deal 1 damage',
         'distance': 3,
         'damage': 1,
-        'do': func(target : Placeable):
+        'do': func(target: Placeable):
   if target is Unit:
     target.take_damage(1)
       })
@@ -48,7 +48,7 @@ var friendlies = {
         'description': 'Add 1 body segment to target',
         'distance': 2,
         'damage': 0,
-        'do': func(target : Placeable):
+        'do': func(target: Placeable):
   if target is Unit:
     await target.heal(1)
       })
@@ -80,7 +80,10 @@ var friendlies = {
         'name': 'Heal Wave',
         'description': 'Add 2 body segments to target',
         'distance': 2,
-        'damage': 0
+        'damage': 0,
+        'do': func(target: Placeable):
+  if target is Unit:
+    await target.heal(2)
       })
     ]
   },
@@ -96,7 +99,11 @@ var friendlies = {
         'description': 'Speed boost by 2 for 1 turn',
         'distance': 1,
         'damage': 0,
-        'effect': {'speed_boost': 2, 'duration': 1}
+        'effect': {'speed_boost': 2, 'duration': 1},
+        'do': func(target: Placeable):
+  if target is Unit:
+    var effect = SpeedEffect.new(1, 2)
+    effect.apply(target)
       })
     ]
   },

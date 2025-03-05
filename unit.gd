@@ -3,15 +3,17 @@ class_name Unit extends Placeable
 var unit_name : String
 var head_sprite : Resource
 var body_sprite : Resource
-# @export var body : Resource
-@export var speed : int = 1
-@export var max_size : int = 2
-@export var abilities : Array[Ability] = []
-@export var max_actions : int = 1
+var max_size : int = 2
+var abilities : Array[Ability] = []
+var max_actions : int = 1
 
-var sfx_move_file : FileAccess
-var sfx_move_stream : AudioStreamWAV
-var sfx_move_player : AudioStreamPlayer
+var _speed : int = 1
+var speed : int:
+  get:
+    return _speed
+  set(value):
+    _speed = value
+    moves = value
 
 var actions_remaining: int = 1
 var body_queue : Array[Body] = []
