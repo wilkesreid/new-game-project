@@ -5,6 +5,7 @@ class_name Ability
 @export var description : String
 @export var distance : int = 1
 @export var damage : int = 1
+var do : Callable
 @export var needs_eyeline : bool = false
 
 func _init(data : Dictionary) -> void:
@@ -13,6 +14,8 @@ func _init(data : Dictionary) -> void:
     description = data['description']
   distance = data['distance']
   damage = data['damage']
+  if data.has('do'):
+    do = data['do']
 
 func gui_input(event : InputEvent, unit : Unit) -> void:
   if event.is_action_pressed('click'):
@@ -25,9 +28,14 @@ func execute(target : Vector2i) -> void:
   State.ability_unit.actions_remaining -= 1
   var unit = State.at(target)
   if unit:
-    if ability_may_damage(unit):
+    if do:
+      if unit is Body:
+        await do.call(unit.parent)
+      elif unit is Unit:
+        await do.call(unit)
+    elif ability_may_damage(unit):
       await unit.take_damage(damage)
-    if ability_may_damage_body(unit):
+    elif ability_may_damage_body(unit):
       await unit.parent.take_damage(damage)
   State.end_ability()
 

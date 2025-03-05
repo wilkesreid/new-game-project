@@ -12,7 +12,9 @@ var friendlies = {
         'name': 'Cut',
         'description': 'Deal 2 damage',
         'distance': 1,
-        'damage': 2
+        'damage': 2,
+        'do': func(target : Unit):
+  target.take_damage(2)
       })
     ]
   },
@@ -27,7 +29,10 @@ var friendlies = {
         'name': 'Shoot',
         'description': 'Deal 1 damage',
         'distance': 3,
-        'damage': 1
+        'damage': 1,
+        'do': func(target : Placeable):
+  if target is Unit:
+    target.take_damage(1)
       })
     ]
   },
@@ -42,7 +47,10 @@ var friendlies = {
         'name': 'Heal',
         'description': 'Add 1 body segment to target',
         'distance': 2,
-        'damage': 0
+        'damage': 0,
+        'do': func(target : Placeable):
+  if target is Unit:
+    await target.heal(1)
       })
     ]
   },

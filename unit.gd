@@ -54,12 +54,6 @@ func dec_moves() -> void:
   assert(moves >= 0)
   moves -= 1
 
-# body queue
-func pop_body_queue() -> Body:
-  return body_queue.pop_front()
-func push_body_queue(segment : Body) -> void:
-  body_queue.push_back(segment)
-
 # assumes we're moving one step at a time
 func move_to(target : Vector2i) -> void:
   if moves == 0:
@@ -70,16 +64,13 @@ func move_to(target : Vector2i) -> void:
   dec_moves()
   Sfx.play('Move')
   if max_size > 1:
-    # var new_segment = body.instantiate()
     var new_segment = Body.new(from, self)
-    # new_segment.index = from
-    # new_segment.parent = self
     State.add(from, new_segment)
-    push_body_queue(new_segment)
+    body_queue.push_front(new_segment)
     if !is_max_size():
       inc_size()
     else:
-      var old_segment = pop_body_queue()
+      var old_segment = body_queue.pop_back()
       State.remove(old_segment.index)
       old_segment.queue_free()
 
@@ -95,7 +86,133 @@ func take_damage(amount : int) -> void:
       State.remove(index)
       queue_free()
       break
-    var deleting = pop_body_queue()
+    var deleting = body_queue.pop_back()
     State.remove(deleting.index)
     deleting.queue_free()
     await get_tree().create_timer(State.game_speed).timeout
+
+
+func add_body_at_end(at : Vector2i) -> void:
+  var new_segment = Body.new(at, self)
+  State.add(at, new_segment)
+  body_queue.push_back(new_segment)
+  inc_size()
+
+func heal(amount : int) -> void:
+  var do_heal = func(at : Vector2i):
+    add_body_at_end(at)
+    Sfx.play('Heal')
+    await get_tree().create_timer(State.game_speed).timeout
+  
+  for _i in range(amount):
+    if is_max_size():
+      return
+
+    var target_index : Vector2i
+
+    # Step 1: Do we have any body segments, or only a head? If
+    # we only have a head, then we can create a new body segment
+    # in any adjacent spot, if one exists. If none exist, this
+    # unit is entirely trapped anyway, so no healing
+    if size == 1:
+      target_index = Vector2i(index.x, index.y - 1)
+      if !State.has(target_index):
+        await do_heal.call(target_index)
+        continue
+      target_index = Vector2i(index.x + 1, index.y)
+      if !State.has(target_index):
+        await do_heal.call(target_index)
+        continue
+      target_index = Vector2i(index.x, index.y + 1)
+      if !State.has(target_index):
+        await do_heal.call(target_index)
+        continue
+      target_index = Vector2i(index.x - 1, index.y)
+      if !State.has(target_index):
+        await do_heal.call(target_index)
+        continue
+      continue
+  
+    # Step 2: We have at least one body segment. We need to
+    # find the last body segment, and then try to create a
+    # new body segment adjacent to it. If we can't, then we
+    # need to try the next body segment, and so on, until we
+    # reach the head.
+    var cur_segment : Placeable = null
+    var cur_index : int = body_queue.size() - 1
+    var did_add : bool = false
+    while cur_index >= 0:
+      cur_segment = body_queue[cur_index]
+      var cur_segment_index = cur_segment.index
+  
+      # try x opposite the head
+      var xdir = 1 if (cur_segment_index.x - index.x) > 0 else -1
+      var ydir = 1 if (cur_segment_index.y - index.y) > 0 else -1
+      if (cur_segment_index.y - index.y) == 0:
+        target_index = Vector2i(cur_segment_index.x + xdir, cur_segment_index.y)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+        target_index = Vector2i(cur_segment_index.x - xdir, cur_segment_index.y)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+      elif (cur_segment_index.x - index.x) == 0:
+        target_index = Vector2i(cur_segment_index.x, cur_segment_index.y + ydir)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+        target_index = Vector2i(cur_segment_index.x, cur_segment_index.y - ydir)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+      else:
+        target_index = Vector2i(cur_segment_index.x, cur_segment_index.y + ydir)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+        target_index = Vector2i(cur_segment_index.x + xdir, cur_segment_index.y)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+        target_index = Vector2i(cur_segment_index.x, cur_segment_index.y - ydir)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+        target_index = Vector2i(cur_segment_index.x - xdir, cur_segment_index.y)
+        if !State.has(target_index):
+          await do_heal.call(target_index)
+          did_add = true
+          break
+        cur_index -= 1 
+    
+    if did_add:
+      continue
+  
+    # Step 3: If we've gotten this far, we have at least one body segment,
+    # but nowhere along the body to place our new part. So we need to basically
+    # do step 1, which we skipped because we already had a body segment.
+    target_index = Vector2i(index.x, index.y - 1)
+    if !State.has(target_index):
+      await do_heal.call(target_index)
+      continue
+    target_index = Vector2i(index.x + 1, index.y)
+    if !State.has(target_index):
+      await do_heal.call(target_index)
+      continue
+    target_index = Vector2i(index.x, index.y + 1)
+    if !State.has(target_index):
+      await do_heal.call(target_index)
+      continue
+    target_index = Vector2i(index.x - 1, index.y)
+    if !State.has(target_index):
+      await do_heal.call(target_index)
+      continue
+    continue

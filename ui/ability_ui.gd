@@ -16,7 +16,7 @@ func remove_all():
 func _select(index : Vector2i):
   remove_all()
   var unit = State.at(index)
-  if unit != null:
+  if unit is Unit:
     
     # Name
     var name_label = Label.new()
